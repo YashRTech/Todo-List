@@ -1,0 +1,21 @@
+/* footer */
+footer {
+  text-align: center;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--font-color);
+  background-color: var(--background-light);
+  margin-top: 40px;
+  font-weight: 600;
+  font-size: 1.5rem;
+}
+footer p {
+  display: flex;
+  gap: 10px;
+}
+footer p a {
+  display: flex;
+  align-items: center;
+}
