@@ -1,12 +1,21 @@
 import { Todo, Project } from "./factories.js"
 
 // let todo1 = new Todo("Hello", "jlal", "work", "high", true, new Date().toLocaleDateString());
+let projects = [];
 
-export function createAndAddTodo(title, description, projectName, priority, isCompleted, dueDate) {
-    let todo = new Todo(title, description, projectName, priority, isCompleted, dueDate);
+export function addTodoToProject(todo) {
     
 }
 
-export function addTodo(todo) {
+export function addProjectToProjects(project) {
     
+}
+
+export function allTodos() {
+    let allTodo = [];
+    projects.forEach(project => {
+        allTodo.push(...project.todos)
+    })
+
+    return allTodo;
 }
