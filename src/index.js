@@ -1,7 +1,5 @@
 import "./styles/style.css";
-import { greeting } from "./modules/greeting.js";
 
-console.log(greeting);
 
 import { format, isToday, isPast, compareAsc } from 'date-fns';
 
