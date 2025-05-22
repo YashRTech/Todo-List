@@ -14,7 +14,7 @@
     <header id="header">
         <p class="logo">✔️Todo </p>
     </header>
-
+`
 
     <div class="main">
         <nav id="sidebar-menu">
@@ -212,7 +212,7 @@
         </main>
     </div>
 
-    <div class="project-input-container">
+    <div class="project-input-container hidden">
         <div class="project-input-header">
             <p>Add Project</p>
             <p>❌</p>
@@ -229,8 +229,50 @@
         </div>
 
     </div>
+    <div class="todo-input-container hidden">
+        <div class="todo-input-header">
+            <p>Add Todo</p>
+            <p>❌</p>
+        </div>
+        <div class="todo-inputs">
+            <div class="todo-input">
+                <label for="todo-title-input">Title*</label>
+                <input type="text" name="name" id="todo-title-input" required>
+            </div>
+            <div class="todo-input">
+                <label for="todo-description">Description</label>
+                <textarea name="Description" id="todo-description" rows="5"></textarea>
+            </div>
+            <div class="todo-input">
+                <label for="todo-date">Due Date</label>
+                <input type="date" name="date" id="todo-date" required>
+            </div>
+            <div class="todo-input">
+                <p>Priority :-</p>
+                <div class="priorities">
+                    <div class="low">
+                        <label for="low">Low</label>
+                        <input type="radio" name="Priority" id="low">
+                    </div>
+                    <div class="medium">
+                        <label for="medium">Medium</label>
+                        <input type="radio" name="Priority" id="medium">
+                    </div>
+                    <div class="high">
+                        <label for="high">High</label>
+                        <input type="radio" name="Priority" id="high" checked>
+                    </div>
+                </div>
+            </div>
+            <div class="todo-btns">
+                <button class="btn btn-cancel">Cancel</button>
+                <button class="btn btn-add">Add</button>
+            </div>
+        </div>
 
-    <div class="overlay"></div>
+    </div>
+
+    <div class="overlay hidden"></div>
 
 
 
