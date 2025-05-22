@@ -141,3 +141,90 @@ main {
   display: flex;
   gap: 10px;
 }
+
+
+
+/*! Project input container */
+.project-input-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+  background-color: var(--light-grey);
+  border-radius: 10px;
+  overflow: hidden;
+  width: 400px;
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
+}
+.project-input-header {
+  background-image: linear-gradient(
+    90deg,
+    var(--aqua) 0%,
+    var(--light-aqua) 100%
+  );
+  padding: 15px;
+  font-size: 25px;
+  display: flex;
+  justify-content: space-between;
+  color: var(--light-grey);
+}
+.project-inputs {
+  padding: 0 20px 20px;
+  color: var(--dark-grey);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.project-name {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+#project-name-input {
+  padding: 10px;
+  font-size: 18px;
+  border: 1px solid var(--grey);
+  border-radius: 5px;
+  background-color: inherit;
+  color: var(--dark-grey);
+}
+
+.project-btns{
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+.btn {
+  background-color: var(--white);
+  color: var(--dark-grey);
+  border: 1px solid var(--grey);
+  transition: 0.3s;
+  padding: 10px 17px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 17px;
+}
+.btn-add{
+  background-color: var(--light-aqua);
+  color: var(--light-grey);
+}
+
+
+
+
+/*! Overlay */
+.hidden {
+  display: none;
+}
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: black;
+  opacity: 0.4;
+}

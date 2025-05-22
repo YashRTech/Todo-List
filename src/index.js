@@ -1,4 +1,7 @@
 import "./styles/style.css";
+import "./modules/factories.js"
+import "./modules/logic.js"
+import "./modules/dom.js"
 
 
 import { format, isToday, isPast, compareAsc } from 'date-fns';
