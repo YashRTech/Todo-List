@@ -5,8 +5,6 @@ footer {
   display: flex;
   justify-content: center;
   align-items: center;
-  color: var(--font-color);
-  background-color: var(--background-light);
   margin-top: 40px;
   font-weight: 600;
   font-size: 1.5rem;
