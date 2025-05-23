@@ -236,6 +236,10 @@ main {
 }
 
 
+.add-new-project,.add-new-todo,.close-btn{
+  cursor: pointer;
+}
+
 
 
 /*! Overlay */
