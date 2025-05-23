@@ -1,5 +1,8 @@
 import * as Logic from "./logic.js";
 
+let editMode = true;
+let editProjectId = null;
+
 const overlay = document.querySelector(".overlay");
 const projectInputContainer = document.querySelector(
   ".project-input-container"
@@ -24,7 +27,12 @@ projectsContainer.addEventListener("click", (e) => {
   }
 
   if (e.target.classList.contains("edit-project")) {
-    
+    const allProjects = Logic.allProjects();
+    const projectToEdit = allProjects.find(prj => prj.id === projectId);
+    projectName.value = projectToEdit.name;
+    editMode = true;
+    editProjectId = projectId;
+    displayProjectModal();
   }
 });
 projectsContainer.addEventListener("click", (e) => {});
@@ -82,9 +90,18 @@ export const closeModals = () => {
 export const addProjectToDom = () => {
   if (checkEmptyValue(projectName.value)) return;
 
-  Logic.createAndUpdateProjects(projectName.value);
+  if (editMode && editProjectId) {
+    Logic.editProjectName(editProjectId, projectName.value);
+  } else {
+    Logic.createAndUpdateProjects(projectName.value);
+  }
+
   displayAllProjects();
   closeModals();
+
+  // Reset
+  editMode = false;
+  editProjectId = null;
 };
 export const deleteProject = (projectId) => {
   Logic.deleteAndUpdateProjects(projectId);

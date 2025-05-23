@@ -22,14 +22,14 @@ export function createAndUpdateProjects(projectName) {
   projects.push(project);
 }
 export function deleteAndUpdateProjects(projectId) {
-    const projectIndex = projects.findIndex((elem) => elem.id === projectId);
-    projects.splice(projectIndex, 1);
+  const projectIndex = projects.findIndex((elem) => elem.id === projectId);
+  projects.splice(projectIndex, 1);
 }
-export function editProjectName(id,value) {
-    let project = projects.find(prj => prj.id === id);
-    if (project) {
-        project.name = value;
-    }
+export function editProjectName(id, value) {
+  let project = projects.find((prj) => prj.id === id);
+  if (project) {
+    project.name = value;
+  }
 }
 
 export function allTodos() {
