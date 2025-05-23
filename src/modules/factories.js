@@ -6,12 +6,14 @@ export class Todo {
     this.priority = priority;
     this.isCompleted = isCompleted;
     this.dueDate = dueDate;
+    this.id = crypto.randomUUID();
   }
 }
 
-export class Project{
-    constructor(name, todos) {
-        this.name = name;
-        this.todos = todos;
-    }
+export class Project {
+  constructor(name) {
+    this.name = name;
+    this.id = crypto.randomUUID();
+    this.todos = [];
+  }
 }

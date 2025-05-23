@@ -179,12 +179,12 @@ main {
   flex-direction: column;
   gap: 20px;
 }
-.project-name ,.todo-input{
+.project-input ,.todo-input{
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
-#project-name-input ,#todo-title-input,#todo-description,#todo-date,.priorities{
+#project-name ,#todo-title,#todo-description,#todo-date,.priorities{
   padding: 10px;
   font-size: 18px;
   border: 1px solid var(--grey);

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Template</title>
+    <title>Todo App</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -38,29 +38,37 @@
                     <span>Projects</span>
                     <span class="add-new-project">+</span>
                 </h2>
-                <a href="#" class="project-link">
-                    <p class="project-text">Craft New Project</p>
-                    <div class="project-right">
-                        <p class="edit"><i class="fa-solid fa-pen-to-square"></i></p>
-                        <p class="delete"><i class="fa-solid fa-trash"></i></p>
+                <div class="projects-container">
+                    <!-- <div>
+                        <a href="#" class="project-link">
+                            <p class="project-text">Craft New Project</p>
+                            <div class="project-right">
+                                <p class="edit"><i class="fa-solid fa-pen-to-square"></i></p>
+                                <p class="delete"><i class="fa-solid fa-trash"></i></p>
+                            </div>
+                        </a>
                     </div>
-                </a>
-                <a href="#" class="project-link">
-                    <p class="project-text">Craft Another Project</p>
-                    <div class="project-right">
-                        <p class="edit"><i class="fa-solid fa-pen-to-square"></i></p>
-                        <p class="delete"><i class="fa-solid fa-trash"></i></p>
+                    <div>
+                        <a href="#" class="project-link">
+                            <p class="project-text">Craft Another Project</p>
+                            <div class="project-right">
+                                <p class="edit"><i class="fa-solid fa-pen-to-square"></i></p>
+                                <p class="delete"><i class="fa-solid fa-trash"></i></p>
+                            </div>
+                        </a>
                     </div>
-                </a>
-                <a href="#" class="project-link">
-                    <p class="project-text">Craft Money ProjectMoney ProjectMoney Project</p>
-                    <div class="project-right">
-                        <p class="edit"><i class="fa-solid fa-pen-to-square"></i></p>
-                        <p class="delete"><i class="fa-solid fa-trash"></i></p>
-                    </div>
-                </a>
+                    <div>
+                        <a href="#" class="project-link">
+                            <p class="project-text">Craft Money ProjectMoney ProjectMoney Project</p>
+                            <div class="project-right">
+                                <p class="edit"><i class="fa-solid fa-pen-to-square"></i></p>
+                                <p class="delete"><i class="fa-solid fa-trash"></i></p>
+                            </div>
+                        </a>
+                    </div> -->
+                </div>
 
-                <a href="#" class="">☽ Crafted by <a href="">YashRTech</a> | <a href="">Source</a> ☾</a>
+                <a href="#" class="">☽ Crafted by <a href="#">YashRTech</a> | <a href="#">Source</a> ☾</a>
             </div>
         </nav>
 
@@ -216,13 +224,13 @@
             <p class="close-btn">❌</p>
         </div>
         <div class="project-inputs">
-            <div class="project-name">
-                <label for="project-name-input">Project Name*</label>
-                <input type="text" name="name" id="project-name-input" required>
+            <div class="project-input">
+                <label for="project-name">Project Name*</label>
+                <input type="text" name="name" id="project-name" required>
             </div>
             <div class="project-btns">
                 <button class="btn btn-cancel">Cancel</button>
-                <button class="btn btn-add">Add</button>
+                <button class="btn btn-add project-add-btn">Add</button>
             </div>
         </div>
 
@@ -234,8 +242,8 @@
         </div>
         <div class="todo-inputs">
             <div class="todo-input">
-                <label for="todo-title-input">Title*</label>
-                <input type="text" name="name" id="todo-title-input" required>
+                <label for="todo-title">Title*</label>
+                <input type="text" name="name" id="todo-title" required>
             </div>
             <div class="todo-input">
                 <label for="todo-description">Description</label>
@@ -264,7 +272,7 @@
             </div>
             <div class="todo-btns">
                 <button class="btn btn-cancel">Cancel</button>
-                <button class="btn btn-add">Add</button>
+                <button class="btn btn-add todo-add-btn">Add</button>
             </div>
         </div>
 

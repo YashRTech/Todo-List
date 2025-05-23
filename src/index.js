@@ -1,16 +1,25 @@
 import "./styles/style.css";
 import "./modules/factories.js"
 import "./modules/logic.js"
-import "./modules/dom.js"
-import * as functions from "./modules/functions.js"
+import "./modules/domm.js"
+import * as DOM from "./modules/dom.js"
 
 const addNewProject = document.querySelector(".add-new-project");
-addNewProject.addEventListener("click", functions.addNewProject);
-
 const addNewTodo = document.querySelector(".add-new-todo");
-addNewTodo.addEventListener("click", functions.addNewTodo);
-
 const closeBtn = document.querySelectorAll(".close-btn");
+const projectAddBtn = document.querySelector(".project-add-btn");
+const todoAddBtn = document.querySelector(".todo-add-btn");
+
+
+
+addNewProject.addEventListener("click", DOM.displayProjectModal);
+
+addNewTodo.addEventListener("click", DOM.displayTodoModal);
+
 closeBtn.forEach(btn => {
-  btn.addEventListener("click",functions.closeModals)
+  btn.addEventListener("click",DOM.closeModals)
 })
+
+projectAddBtn.addEventListener("click", DOM.addProjectToDom);
+
+todoAddBtn.addEventListener("click", DOM.addTodoToDom);
