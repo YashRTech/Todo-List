@@ -8,6 +8,7 @@ const projectsContainer = document.querySelector(".projects-container");
 // let todo1 = new Todo("Hello", "jlal", "work", "high", true, new Date().toLocaleDateString());
 
 let projects = [];
+let allTodos = getAllTodos();
 let project1 = new Project("Yash");
 let project2 = new Project("Krish");
 createAndUpdateProjects(project1.name);
@@ -36,7 +37,7 @@ export function editProjectName(projectId, value) {
   }
 }
 
-export function allTodos() {
+export function getAllTodos() {
   let allTodo = [];
   projects.forEach((project) => {
     allTodo.push(...project.todos);
@@ -55,7 +56,23 @@ export function createAndUpdateTodoToProject(
   let currentProject = getCurrentProject(projectId);
   currentProject.todos.push(todo);
 }
+export function deleteAndUpdateTodo(todoId, projectId) {
+  let project = getCurrentProject(projectId);
+  const todoIndex = project.todos.findIndex((todo) => todo.id === todoId);
+
+  if (todoIndex!==-1) {
+    project.todos.splice(todoIndex, 1);
+    return;
+  }
+
+
+  let todoIndexInAllTodos = getAllTodos().findIndex(todo => todo.id == todoId);
+  allTodos.splice(todoIndexInAllTodos, 1);
+}
 
 // Hard Coded
-let id=projects[0].id
+let id = projects[0].id;
+let id2 = projects[1].id;
 createAndUpdateTodoToProject(id, ["Hiii", "laghlajfl", "05-22-2024"]);
+createAndUpdateTodoToProject(id, ["Hiii2", "laghlajfl", "06-22-2024"]);
+createAndUpdateTodoToProject(id2, ["Hiii3", "laghlajfl", "07-22-2024"]);

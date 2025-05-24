@@ -133,6 +133,7 @@ main {
 .todo {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding: 20px;
   border-bottom: 1px solid var(--grey);
   transition: 0.3s;
@@ -236,7 +237,7 @@ main {
 }
 
 
-.add-new-project,.add-new-todo,.close-btn{
+.add-new-project,.add-new-todo,.close-btn,.todo-edit,.todo-delete,.todo-details{
   cursor: pointer;
 }
 

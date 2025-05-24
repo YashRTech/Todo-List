@@ -20,7 +20,7 @@ const todoContainer = document.querySelector(".todo-container");
 //! For edit and delete projects
 projectsContainer.addEventListener("click", (e) => {
   const project = e.target.closest("div[id]");
-  if(!project) return
+  if (!project) return;
   const projectId = project.id;
 
   if (e.target.classList.contains("delete-project")) {
@@ -34,13 +34,24 @@ projectsContainer.addEventListener("click", (e) => {
     editMode = true;
     editProjectId = projectId;
     displayProjectModal();
-    return
+    return;
   }
 
   const currentProject = Logic.getCurrentProject(projectId);
-  displayTodosOfProject(currentProject.todos);
+  currentProjectId = projectId;
+  displayTodos(currentProject.todos);
 });
 
+todoContainer.addEventListener("click", (e) => {
+  const todo = e.target.closest("div[id]");
+  if (!todo) return;
+  const todoId = todo.id;
+  
+  if (e.target.classList.contains("todo-delete")) {
+    deleteTodo(todoId);
+    console.log(todoId)
+  }
+})
 
 const checkEmptyValue = (value) => {
   //! Matches empty string and all white spaces.
@@ -116,24 +127,25 @@ export const deleteProject = (projectId) => {
 window.addEventListener("DOMContentLoaded", displayAllProjects);
 
 //! For Todos
-function displayTodosOfProject(todos) {
+function displayTodos(todos) {
   todoContainer.textContent = "";
   todos.forEach((todo) => {
     let div = document.createElement("div");
+    div.setAttribute("id",todo.id)
     div.classList.add("todo");
     div.innerHTML = `<div>
         <p class="tick">${todo.title}</p>
       </div>
       <div class="todo-right">
-        <p class="date">${todo.dueDate}</p>
-        <p class="edit">
-          <i class="fa-solid fa-pen-to-square"></i>
+        <p class="todo-date">${todo.dueDate}</p>
+        <p>
+          <i class="fa-solid fa-pen-to-square todo-edit"></i>
         </p>
-        <p class="delete">
-          <i class="fa-solid fa-trash"></i>
+        <p class="todo-delete">
+          <i class="fa-solid fa-trash todo-delete"></i>
         </p>
-        <p class="details">
-          <i class="fa-solid fa-info-circle fa-lg"></i>
+        <p>
+          <i class="fa-solid fa-info-circle fa-lg todo-details"></i>
         </p>
       </div>`;
     todoContainer.appendChild(div);
@@ -149,11 +161,26 @@ export function addTodoToDom() {
   ]);
   const currentProject = Logic.getCurrentProject(currentProjectId);
 
-  displayTodosOfProject(currentProject.todos);
+  displayTodos(currentProject.todos);
   closeModals();
 }
 
 export function displayCurrentProjectTodos(projectId) {
   let currentProject = Logic.getCurrentProject(projectId);
-  displayTodosOfProject(currentProject.todos);
+  displayTodos(currentProject.todos);
 }
+export function deleteTodo(todoId) {
+  Logic.deleteAndUpdateTodo(todoId, currentProjectId);
+  const currentProjectTodos = Logic.getCurrentProject(currentProjectId).todos;
+  displayTodos(currentProjectTodos);
+}
+
+export function displayAllTodos() {
+  let allTodos = Logic.getAllTodos();
+  displayTodos(allTodos);
+}
+
+
+
+
+

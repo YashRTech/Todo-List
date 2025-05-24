@@ -9,7 +9,7 @@ const addNewTodo = document.querySelector(".add-new-todo");
 const closeBtn = document.querySelectorAll(".close-btn");
 const projectAddBtn = document.querySelector(".project-add-btn");
 const todoAddBtn = document.querySelector(".todo-add-btn");
-
+const allTab = document.querySelector(".all-tab");
 
 
 addNewProject.addEventListener("click", DOM.displayProjectModal);
@@ -23,4 +23,6 @@ closeBtn.forEach(btn => {
 projectAddBtn.addEventListener("click", DOM.addAndEditProjectToDom);
 
 todoAddBtn.addEventListener("click", DOM.addTodoToDom);
+
+allTab.addEventListener("click",DOM.displayAllTodos)
 
