@@ -38,7 +38,7 @@ projectsContainer.addEventListener("click", (e) => {
   }
 
   const currentProject = Logic.getCurrentProject(projectId);
-  displayTodosOfProject(currentProject);
+  displayTodosOfProject(currentProject.todos);
 });
 
 
@@ -116,9 +116,9 @@ export const deleteProject = (projectId) => {
 window.addEventListener("DOMContentLoaded", displayAllProjects);
 
 //! For Todos
-function displayTodosOfProject(project) {
+function displayTodosOfProject(todos) {
   todoContainer.textContent = "";
-  project.todos.forEach((todo) => {
+  todos.forEach((todo) => {
     let div = document.createElement("div");
     div.classList.add("todo");
     div.innerHTML = `<div>
@@ -149,11 +149,11 @@ export function addTodoToDom() {
   ]);
   const currentProject = Logic.getCurrentProject(currentProjectId);
 
-  displayTodosOfProject(currentProject);
+  displayTodosOfProject(currentProject.todos);
   closeModals();
 }
 
 export function displayCurrentProjectTodos(projectId) {
   let currentProject = Logic.getCurrentProject(projectId);
-  displayTodosOfProject(currentProject);
+  displayTodosOfProject(currentProject.todos);
 }
