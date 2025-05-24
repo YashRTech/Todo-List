@@ -2,6 +2,7 @@ import * as Logic from "./logic.js";
 
 let editMode = true;
 let editProjectId = null;
+let currentProjectId = null;
 
 const overlay = document.querySelector(".overlay");
 const projectInputContainer = document.querySelector(
@@ -14,11 +15,12 @@ const todoDescription = document.querySelector("#todo-description");
 const todoDate = document.querySelector("#todo-date");
 
 const projectsContainer = document.querySelector(".projects-container");
-
+const todoContainer = document.querySelector(".todo-container");
 
 //! For edit and delete projects
 projectsContainer.addEventListener("click", (e) => {
   const project = e.target.closest("div[id]");
+  if(!project) return
   const projectId = project.id;
 
   if (e.target.classList.contains("delete-project")) {
@@ -27,15 +29,18 @@ projectsContainer.addEventListener("click", (e) => {
   }
 
   if (e.target.classList.contains("edit-project")) {
-    const allProjects = Logic.allProjects();
-    const projectToEdit = allProjects.find(prj => prj.id === projectId);
+    const projectToEdit = Logic.getCurrentProject(projectId);
     projectName.value = projectToEdit.name;
     editMode = true;
     editProjectId = projectId;
     displayProjectModal();
+    return
   }
+
+  const currentProject = Logic.getCurrentProject(projectId);
+  displayTodosOfProject(currentProject);
 });
-projectsContainer.addEventListener("click", (e) => {});
+
 
 const checkEmptyValue = (value) => {
   //! Matches empty string and all white spaces.
@@ -87,7 +92,7 @@ export const closeModals = () => {
   addHiddenClass(projectInputContainer);
   addHiddenClass(overlay);
 };
-export const addProjectToDom = () => {
+export const addAndEditProjectToDom = () => {
   if (checkEmptyValue(projectName.value)) return;
 
   if (editMode && editProjectId) {
@@ -108,6 +113,47 @@ export const deleteProject = (projectId) => {
   displayAllProjects();
 };
 
-export const addTodoToDom = () => {};
-
 window.addEventListener("DOMContentLoaded", displayAllProjects);
+
+//! For Todos
+function displayTodosOfProject(project) {
+  todoContainer.textContent = "";
+  project.todos.forEach((todo) => {
+    let div = document.createElement("div");
+    div.classList.add("todo");
+    div.innerHTML = `<div>
+        <p class="tick">${todo.title}</p>
+      </div>
+      <div class="todo-right">
+        <p class="date">${todo.dueDate}</p>
+        <p class="edit">
+          <i class="fa-solid fa-pen-to-square"></i>
+        </p>
+        <p class="delete">
+          <i class="fa-solid fa-trash"></i>
+        </p>
+        <p class="details">
+          <i class="fa-solid fa-info-circle fa-lg"></i>
+        </p>
+      </div>`;
+    todoContainer.appendChild(div);
+  });
+}
+export function addTodoToDom() {
+  if (checkEmptyValue(todoTitle.value)) return;
+
+  Logic.createAndUpdateTodoToProject(currentProjectId, [
+    todoTitle.value,
+    todoDescription.value,
+    todoDate.value,
+  ]);
+  const currentProject = Logic.getCurrentProject(currentProjectId);
+
+  displayTodosOfProject(currentProject);
+  closeModals();
+}
+
+export function displayCurrentProjectTodos(projectId) {
+  let currentProject = Logic.getCurrentProject(projectId);
+  displayTodosOfProject(currentProject);
+}

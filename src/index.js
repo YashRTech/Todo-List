@@ -20,6 +20,7 @@ closeBtn.forEach(btn => {
   btn.addEventListener("click",DOM.closeModals)
 })
 
-projectAddBtn.addEventListener("click", DOM.addProjectToDom);
+projectAddBtn.addEventListener("click", DOM.addAndEditProjectToDom);
 
 todoAddBtn.addEventListener("click", DOM.addTodoToDom);
+

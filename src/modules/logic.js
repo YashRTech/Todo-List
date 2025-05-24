@@ -9,13 +9,17 @@ const projectsContainer = document.querySelector(".projects-container");
 
 let projects = [];
 let project1 = new Project("Yash");
+let project2 = new Project("Krish");
 createAndUpdateProjects(project1.name);
+createAndUpdateProjects(project2.name);
 
 export const allProjects = () => projects;
 
-function createNewProject() {}
+//! For Projects
 
-export function addTodoToProject(todo) {}
+export function getCurrentProject(projectId) {
+  return projects.find((project) => project.id === projectId);
+}
 
 export function createAndUpdateProjects(projectName) {
   let project = new Project(projectName);
@@ -25,8 +29,8 @@ export function deleteAndUpdateProjects(projectId) {
   const projectIndex = projects.findIndex((elem) => elem.id === projectId);
   projects.splice(projectIndex, 1);
 }
-export function editProjectName(id, value) {
-  let project = projects.find((prj) => prj.id === id);
+export function editProjectName(projectId, value) {
+  let project = getCurrentProject(projectId);
   if (project) {
     project.name = value;
   }
@@ -40,3 +44,18 @@ export function allTodos() {
 
   return allTodo;
 }
+
+//! For Todos
+
+export function createAndUpdateTodoToProject(
+  projectId,
+  [title, description, dueDate, priority, isCompleted]
+) {
+  let todo = new Todo(title, description, dueDate, priority, isCompleted);
+  let currentProject = getCurrentProject(projectId);
+  currentProject.todos.push(todo);
+}
+
+// Hard Coded
+let id=projects[0].id
+createAndUpdateTodoToProject(id, ["Hiii", "laghlajfl", "05-22-2024"]);
