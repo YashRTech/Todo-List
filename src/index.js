@@ -26,3 +26,4 @@ todoAddBtn.addEventListener("click", DOM.addTodoToDom);
 
 allTab.addEventListener("click",DOM.displayAllTodos)
 
+

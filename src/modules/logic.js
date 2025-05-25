@@ -60,17 +60,8 @@ export function createAndUpdateTodoToProject(
 
 export function deleteAndUpdateTodo(todoId, projectId) {
   let project = getCurrentProject(projectId);
-  const todoIndex = project.todos.findIndex((todo) => todo.id === todoId);
-
-  if (todoIndex !== -1) {
-    project.todos.splice(todoIndex, 1);
-    return;
-  }
-
-  let todoIndexInAllTodos = getAllTodos().findIndex(
-    (todo) => todo.id == todoId
-  );
-  allTodos.splice(todoIndexInAllTodos, 1);
+  const todoIndex = project.todos.findIndex((todo) => todo.todoId === todoId);
+  project.todos.splice(todoIndex, 1);
 }
 
 // Hard Coded

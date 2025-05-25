@@ -3,6 +3,7 @@ import * as Logic from "./logic.js";
 let editMode = true;
 let editProjectId = null;
 let currentProjectId = null;
+let currentTab = "All";
 
 const overlay = document.querySelector(".overlay");
 const projectInputContainer = document.querySelector(
@@ -39,17 +40,18 @@ projectsContainer.addEventListener("click", (e) => {
 
   const currentProject = Logic.getCurrentProject(projectId);
   currentProjectId = projectId;
+  currentTab = currentProject.name;
   displayTodos(currentProject.todos);
 });
 
 todoContainer.addEventListener("click", (e) => {
-  const todo = e.target.closest("div[id]");
+  const todo = e.target.closest("div[data-todo-id]");
   if (!todo) return;
-  const todoId = todo.id;
+  const todoId = todo.dataset.todoId;
+  const projectId = todo.dataset.projectId;
   
   if (e.target.classList.contains("todo-delete")) {
-    deleteTodo(todoId);
-    console.log(todoId)
+    deleteTodo(todoId,projectId);
   }
 })
 
@@ -131,7 +133,8 @@ function displayTodos(todos) {
   todoContainer.textContent = "";
   todos.forEach((todo) => {
     let div = document.createElement("div");
-    div.setAttribute("id",todo.id)
+    div.dataset.todoId = todo.todoId;
+    div.dataset.projectId = todo.projectId;
     div.classList.add("todo");
     div.innerHTML = `<div>
         <p class="tick">${todo.title}</p>
@@ -169,13 +172,18 @@ export function displayCurrentProjectTodos(projectId) {
   let currentProject = Logic.getCurrentProject(projectId);
   displayTodos(currentProject.todos);
 }
-export function deleteTodo(todoId) {
-  Logic.deleteAndUpdateTodo(todoId, currentProjectId);
-  const currentProjectTodos = Logic.getCurrentProject(currentProjectId).todos;
+export function deleteTodo(todoId,projectId) {
+  Logic.deleteAndUpdateTodo(todoId, projectId);
+  if (currentTab === "All") {
+    displayAllTodos();
+    return;
+  }
+  const currentProjectTodos = Logic.getCurrentProject(projectId).todos;
   displayTodos(currentProjectTodos);
 }
 
 export function displayAllTodos() {
+  currentTab = "All";
   let allTodos = Logic.getAllTodos();
   displayTodos(allTodos);
 }
