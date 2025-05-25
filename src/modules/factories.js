@@ -5,7 +5,7 @@ export class Todo {
     this.priority = priority;
     this.isCompleted = isCompleted;
     this.dueDate = dueDate;
-    this.id = crypto.randomUUID();
+    this.todoId = crypto.randomUUID();
   }
 }
 

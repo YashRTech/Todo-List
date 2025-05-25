@@ -53,20 +53,23 @@ export function createAndUpdateTodoToProject(
   [title, description, dueDate, priority, isCompleted]
 ) {
   let todo = new Todo(title, description, dueDate, priority, isCompleted);
+  todo.projectId = projectId;
   let currentProject = getCurrentProject(projectId);
   currentProject.todos.push(todo);
 }
+
 export function deleteAndUpdateTodo(todoId, projectId) {
   let project = getCurrentProject(projectId);
   const todoIndex = project.todos.findIndex((todo) => todo.id === todoId);
 
-  if (todoIndex!==-1) {
+  if (todoIndex !== -1) {
     project.todos.splice(todoIndex, 1);
     return;
   }
 
-
-  let todoIndexInAllTodos = getAllTodos().findIndex(todo => todo.id == todoId);
+  let todoIndexInAllTodos = getAllTodos().findIndex(
+    (todo) => todo.id == todoId
+  );
   allTodos.splice(todoIndexInAllTodos, 1);
 }
 
