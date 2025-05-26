@@ -237,7 +237,7 @@ main {
 }
 
 
-.add-new-project,.add-new-todo,.close-btn,.todo-edit,.todo-delete,.todo-details{
+.add-new-project,.add-new-todo,.close-btn,.todo-edit,.todo-delete,.todo-details,.todo{
   cursor: pointer;
 }
 

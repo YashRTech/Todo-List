@@ -24,6 +24,8 @@ const projectAddBtn = document.querySelector(".project-add-btn");
 const todoHeaderTitle = document.querySelector(".todo-header-title");
 const projectHeaderTitle = document.querySelector(".project-header-title");
 
+
+
 function disable(...elems) {
   elems.forEach((elem) => {
     elem.disabled = true;
@@ -130,7 +132,7 @@ function displayTodos(todos) {
     div.dataset.projectId = todo.projectId;
     div.classList.add("todo");
     div.innerHTML = `<div>
-        <p class="tick"><input type="checkbox" data-checkbox> ${todo.title}</p>
+        <p class="tick"><input type="checkbox" class="checkbox"> ${todo.title}</p>
       </div>
       <div class="todo-right">
         <p class="todo-date">${todo.dueDate}</p>
@@ -227,6 +229,7 @@ export function handleProjectContainer(e) {
 }
 export function handleTodoContainer(e) {
   const todo = e.target.closest("div[data-todo-id]");
+  console.log(todo)
   if (!todo) return;
   const todoId = todo.dataset.todoId;
   const projectId = todo.dataset.projectId;
@@ -261,9 +264,15 @@ export function handleTodoContainer(e) {
     changeTodoAddBtnText("View");
     addHiddenClass(btnAddTodo);
     displayTodoModal();
+    return
   }
+
+  let checkbox = todo.querySelector("input")
+  // Toggles checkbox
+  checkbox.checked=!checkbox.checked
+  
 }
 
 export function handleCheckbox() {
-  
+  // checkbox.checked = true;
 }
