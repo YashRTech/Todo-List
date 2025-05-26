@@ -3,7 +3,9 @@ import * as Logic from "./logic.js";
 let editMode = true;
 let editProjectId = null;
 let currentProjectId = null;
+let editTodoId = null;
 let currentTab = "All";
+
 
 const overlay = document.querySelector(".overlay");
 const projectInputContainer = document.querySelector(
@@ -14,9 +16,23 @@ const projectName = document.querySelector("#project-name");
 const todoTitle = document.querySelector("#todo-title");
 const todoDescription = document.querySelector("#todo-description");
 const todoDate = document.querySelector("#todo-date");
+const btnAddTodo = document.querySelector(".todo-add-btn");
 
 const projectsContainer = document.querySelector(".projects-container");
 const todoContainer = document.querySelector(".todo-container");
+const addNewTodo = document.querySelector(".add-new-todo");
+
+
+function disable(...elems) {
+  elems.forEach(elem => {
+    elem.disabled = true;
+  })
+}
+function enable(...elems) {
+  elems.forEach(elem => {
+    elem.disabled = false;
+  })
+}
 
 //! For edit and delete projects
 projectsContainer.addEventListener("click", (e) => {
@@ -41,6 +57,7 @@ projectsContainer.addEventListener("click", (e) => {
   const currentProject = Logic.getCurrentProject(projectId);
   currentProjectId = projectId;
   currentTab = currentProject.name;
+  removeHiddenClass(addNewTodo)
   displayTodos(currentProject.todos);
 });
 
@@ -49,11 +66,38 @@ todoContainer.addEventListener("click", (e) => {
   if (!todo) return;
   const todoId = todo.dataset.todoId;
   const projectId = todo.dataset.projectId;
-  
+
   if (e.target.classList.contains("todo-delete")) {
-    deleteTodo(todoId,projectId);
+    deleteTodo(todoId, projectId);
+    return;
   }
-})
+
+  if (e.target.classList.contains("todo-edit")) {
+    const todoToEdit = Logic.getCurrentTodo(todoId, projectId);
+    todoTitle.value = todoToEdit.title;
+    todoDescription.value = todoToEdit.description;
+    todoDate.value = todoToEdit.dueDate;
+    console.log(todoDate.value)
+    // todoPriority.value = todoToEdit.priority;
+
+    editMode = true;
+    editTodoId = todoId;
+    editProjectId = projectId;
+    displayTodoModal();
+    return;
+  }
+
+  if (e.target.classList.contains("todo-details")) {
+    const todoToView = Logic.getCurrentTodo(todoId, projectId);
+    todoTitle.value = todoToView.title;
+    todoDescription.value = todoToView.description;
+    todoDate.value = todoToView.dueDate;
+    
+    disable(todoTitle, todoDescription, todoDate)
+    addHiddenClass(btnAddTodo);
+    displayTodoModal();
+  }
+});
 
 const checkEmptyValue = (value) => {
   //! Matches empty string and all white spaces.
@@ -104,6 +148,8 @@ export const closeModals = () => {
   addHiddenClass(todoInputContainer);
   addHiddenClass(projectInputContainer);
   addHiddenClass(overlay);
+  removeHiddenClass(btnAddTodo);
+  enable(todoTitle,todoDescription,todoDate);
 };
 export const addAndEditProjectToDom = () => {
   if (checkEmptyValue(projectName.value)) return;
@@ -126,7 +172,10 @@ export const deleteProject = (projectId) => {
   displayAllProjects();
 };
 
-window.addEventListener("DOMContentLoaded", displayAllProjects);
+window.addEventListener("DOMContentLoaded", () => {
+  displayAllProjects();
+  displayAllTodos();
+});
 
 //! For Todos
 function displayTodos(todos) {
@@ -157,22 +206,34 @@ function displayTodos(todos) {
 export function addTodoToDom() {
   if (checkEmptyValue(todoTitle.value)) return;
 
-  Logic.createAndUpdateTodoToProject(currentProjectId, [
-    todoTitle.value,
-    todoDescription.value,
-    todoDate.value,
-  ]);
-  const currentProject = Logic.getCurrentProject(currentProjectId);
+  if (editMode && editTodoId && editProjectId) {
+    Logic.editTodo(editTodoId, editProjectId, [
+      todoTitle.value,
+      todoDescription.value,
+      todoDate.value,
+    ]);
+  } else {
+    Logic.createAndUpdateTodoToProject(currentProjectId, [
+      todoTitle.value,
+      todoDescription.value,
+      todoDate.value,
+    ]);
+  }
 
-  displayTodos(currentProject.todos);
   closeModals();
+  displayCurrentProjectTodos(currentProjectId)
+
+  // Reset
+  editMode = false;
+  editTodoId = null;
+  editProjectId = null;
 }
 
 export function displayCurrentProjectTodos(projectId) {
   let currentProject = Logic.getCurrentProject(projectId);
   displayTodos(currentProject.todos);
 }
-export function deleteTodo(todoId,projectId) {
+export function deleteTodo(todoId, projectId) {
   Logic.deleteAndUpdateTodo(todoId, projectId);
   if (currentTab === "All") {
     displayAllTodos();
@@ -184,11 +245,9 @@ export function deleteTodo(todoId,projectId) {
 
 export function displayAllTodos() {
   currentTab = "All";
+  addHiddenClass(addNewTodo);
   let allTodos = Logic.getAllTodos();
   displayTodos(allTodos);
 }
 
-
-
-
-
+export function displayMainTitle() {}

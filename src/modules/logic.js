@@ -16,6 +16,11 @@ createAndUpdateProjects(project2.name);
 
 export const allProjects = () => projects;
 
+export function getCurrentTodo(todoId, projectId) {
+  let project = getCurrentProject(projectId);
+  let todo = project.todos.find((todo) => todo.todoId === todoId);
+  return todo;
+}
 //! For Projects
 
 export function getCurrentProject(projectId) {
@@ -30,10 +35,10 @@ export function deleteAndUpdateProjects(projectId) {
   const projectIndex = projects.findIndex((elem) => elem.id === projectId);
   projects.splice(projectIndex, 1);
 }
-export function editProjectName(projectId, value) {
+export function editProjectName(projectId, projectName) {
   let project = getCurrentProject(projectId);
   if (project) {
-    project.name = value;
+    project.name = projectName;
   }
 }
 
@@ -62,6 +67,21 @@ export function deleteAndUpdateTodo(todoId, projectId) {
   let project = getCurrentProject(projectId);
   const todoIndex = project.todos.findIndex((todo) => todo.todoId === todoId);
   project.todos.splice(todoIndex, 1);
+}
+export function editTodo(
+  todoId,
+  projectId,
+  [title, description, dueDate, priority, isCompleted]
+) {
+  let todo = getCurrentTodo(todoId, projectId);
+
+  if (!todo) return;
+
+  todo.title = title;
+  todo.description = description;
+  todo.dueDate = dueDate;
+  // todo.priority = priority;
+  // todo.isCompleted = isCompleted;
 }
 
 // Hard Coded
