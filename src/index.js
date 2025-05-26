@@ -10,6 +10,9 @@ const closeBtn = document.querySelectorAll(".close-btn");
 const projectAddBtn = document.querySelector(".project-add-btn");
 const todoAddBtn = document.querySelector(".todo-add-btn");
 const allTab = document.querySelector(".all-tab");
+const btnCancel = document.querySelectorAll(".btn-cancel");
+const projectsContainer = document.querySelector(".projects-container");
+const todoContainer = document.querySelector(".todo-container");
 
 
 addNewProject.addEventListener("click", DOM.displayProjectModal);
@@ -26,4 +29,23 @@ todoAddBtn.addEventListener("click", DOM.addTodoToDom);
 
 allTab.addEventListener("click",DOM.displayAllTodos)
 
+btnCancel.forEach(btn => {
+  btn.addEventListener("click", DOM.closeModals);
+})
 
+
+
+//! For edit and delete projects
+projectsContainer.addEventListener("click", (e) => {
+  DOM.handleProjectContainer(e);
+});
+
+todoContainer.addEventListener("click", (e) => {
+  DOM.handleTodoContainer(e);
+});
+
+
+window.addEventListener("DOMContentLoaded", () => {
+  DOM.displayAllProjects();
+  DOM.displayAllTodos();
+});

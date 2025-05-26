@@ -6,7 +6,6 @@ let currentProjectId = null;
 let editTodoId = null;
 let currentTab = "All";
 
-
 const overlay = document.querySelector(".overlay");
 const projectInputContainer = document.querySelector(
   ".project-input-container"
@@ -21,83 +20,28 @@ const btnAddTodo = document.querySelector(".todo-add-btn");
 const projectsContainer = document.querySelector(".projects-container");
 const todoContainer = document.querySelector(".todo-container");
 const addNewTodo = document.querySelector(".add-new-todo");
-
+const projectAddBtn = document.querySelector(".project-add-btn");
+const todoHeaderTitle = document.querySelector(".todo-header-title");
+const projectHeaderTitle = document.querySelector(".project-header-title");
 
 function disable(...elems) {
-  elems.forEach(elem => {
+  elems.forEach((elem) => {
     elem.disabled = true;
-  })
+  });
 }
 function enable(...elems) {
-  elems.forEach(elem => {
+  elems.forEach((elem) => {
     elem.disabled = false;
-  })
+  });
 }
-
-//! For edit and delete projects
-projectsContainer.addEventListener("click", (e) => {
-  const project = e.target.closest("div[id]");
-  if (!project) return;
-  const projectId = project.id;
-
-  if (e.target.classList.contains("delete-project")) {
-    deleteProject(projectId);
-    return;
-  }
-
-  if (e.target.classList.contains("edit-project")) {
-    const projectToEdit = Logic.getCurrentProject(projectId);
-    projectName.value = projectToEdit.name;
-    editMode = true;
-    editProjectId = projectId;
-    displayProjectModal();
-    return;
-  }
-
-  const currentProject = Logic.getCurrentProject(projectId);
-  currentProjectId = projectId;
-  currentTab = currentProject.name;
-  removeHiddenClass(addNewTodo)
-  displayTodos(currentProject.todos);
-});
-
-todoContainer.addEventListener("click", (e) => {
-  const todo = e.target.closest("div[data-todo-id]");
-  if (!todo) return;
-  const todoId = todo.dataset.todoId;
-  const projectId = todo.dataset.projectId;
-
-  if (e.target.classList.contains("todo-delete")) {
-    deleteTodo(todoId, projectId);
-    return;
-  }
-
-  if (e.target.classList.contains("todo-edit")) {
-    const todoToEdit = Logic.getCurrentTodo(todoId, projectId);
-    todoTitle.value = todoToEdit.title;
-    todoDescription.value = todoToEdit.description;
-    todoDate.value = todoToEdit.dueDate;
-    console.log(todoDate.value)
-    // todoPriority.value = todoToEdit.priority;
-
-    editMode = true;
-    editTodoId = todoId;
-    editProjectId = projectId;
-    displayTodoModal();
-    return;
-  }
-
-  if (e.target.classList.contains("todo-details")) {
-    const todoToView = Logic.getCurrentTodo(todoId, projectId);
-    todoTitle.value = todoToView.title;
-    todoDescription.value = todoToView.description;
-    todoDate.value = todoToView.dueDate;
-    
-    disable(todoTitle, todoDescription, todoDate)
-    addHiddenClass(btnAddTodo);
-    displayTodoModal();
-  }
-});
+function changeTodoAddBtnText(text) {
+  btnAddTodo.textContent = text;
+  todoHeaderTitle.textContent = text;
+}
+function changeProjectAddBtnText(text) {
+  projectAddBtn.textContent = text;
+  projectHeaderTitle.textContent = text;
+}
 
 const checkEmptyValue = (value) => {
   //! Matches empty string and all white spaces.
@@ -115,7 +59,7 @@ const clearInputs = () => {
   todoDescription.value = "";
   todoDate.value = "";
 };
-const displayAllProjects = () => {
+export const displayAllProjects = () => {
   let allProjects = Logic.allProjects();
   // Clear before updating
   projectsContainer.textContent = "";
@@ -149,7 +93,9 @@ export const closeModals = () => {
   addHiddenClass(projectInputContainer);
   addHiddenClass(overlay);
   removeHiddenClass(btnAddTodo);
-  enable(todoTitle,todoDescription,todoDate);
+  enable(todoTitle, todoDescription, todoDate);
+  changeTodoAddBtnText("Add");
+  changeProjectAddBtnText("Add");
 };
 export const addAndEditProjectToDom = () => {
   if (checkEmptyValue(projectName.value)) return;
@@ -170,12 +116,10 @@ export const addAndEditProjectToDom = () => {
 export const deleteProject = (projectId) => {
   Logic.deleteAndUpdateProjects(projectId);
   displayAllProjects();
+  displayAllTodos();
 };
 
-window.addEventListener("DOMContentLoaded", () => {
-  displayAllProjects();
-  displayAllTodos();
-});
+
 
 //! For Todos
 function displayTodos(todos) {
@@ -221,8 +165,11 @@ export function addTodoToDom() {
   }
 
   closeModals();
-  displayCurrentProjectTodos(currentProjectId)
-
+  if (currentTab === "All") {
+    displayAllTodos();
+  } else {
+    displayCurrentProjectTodos(currentProjectId);
+  }
   // Reset
   editMode = false;
   editTodoId = null;
@@ -251,3 +198,68 @@ export function displayAllTodos() {
 }
 
 export function displayMainTitle() {}
+
+export function handleProjectContainer(e) {
+  const project = e.target.closest("div[id]");
+  if (!project) return;
+  const projectId = project.id;
+
+  if (e.target.classList.contains("delete-project")) {
+    deleteProject(projectId);
+    return;
+  }
+
+  if (e.target.classList.contains("edit-project")) {
+    const projectToEdit = Logic.getCurrentProject(projectId);
+    projectName.value = projectToEdit.name;
+    editMode = true;
+    editProjectId = projectId;
+    changeProjectAddBtnText("Edit");
+    displayProjectModal();
+    return;
+  }
+
+  const currentProject = Logic.getCurrentProject(projectId);
+  currentProjectId = projectId;
+  currentTab = currentProject.name;
+  removeHiddenClass(addNewTodo);
+  displayTodos(currentProject.todos);
+}
+export function handleTodoContainer(e) {
+  const todo = e.target.closest("div[data-todo-id]");
+  if (!todo) return;
+  const todoId = todo.dataset.todoId;
+  const projectId = todo.dataset.projectId;
+
+  if (e.target.classList.contains("todo-delete")) {
+    deleteTodo(todoId, projectId);
+    return;
+  }
+
+  if (e.target.classList.contains("todo-edit")) {
+    const todoToEdit = Logic.getCurrentTodo(todoId, projectId);
+    todoTitle.value = todoToEdit.title;
+    todoDescription.value = todoToEdit.description;
+    todoDate.value = todoToEdit.dueDate;
+    // todoPriority.value = todoToEdit.priority;
+
+    editMode = true;
+    editTodoId = todoId;
+    editProjectId = projectId;
+    changeTodoAddBtnText("Edit");
+    displayTodoModal();
+    return;
+  }
+
+  if (e.target.classList.contains("todo-details")) {
+    const todoToView = Logic.getCurrentTodo(todoId, projectId);
+    todoTitle.value = todoToView.title;
+    todoDescription.value = todoToView.description;
+    todoDate.value = todoToView.dueDate;
+
+    disable(todoTitle, todoDescription, todoDate);
+    changeTodoAddBtnText("View");
+    addHiddenClass(btnAddTodo);
+    displayTodoModal();
+  }
+}
