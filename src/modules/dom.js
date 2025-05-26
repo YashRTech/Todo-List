@@ -130,7 +130,7 @@ function displayTodos(todos) {
     div.dataset.projectId = todo.projectId;
     div.classList.add("todo");
     div.innerHTML = `<div>
-        <p class="tick">${todo.title}</p>
+        <p class="tick"><input type="checkbox" data-checkbox> ${todo.title}</p>
       </div>
       <div class="todo-right">
         <p class="todo-date">${todo.dueDate}</p>
@@ -262,4 +262,8 @@ export function handleTodoContainer(e) {
     addHiddenClass(btnAddTodo);
     displayTodoModal();
   }
+}
+
+export function handleCheckbox() {
+  
 }

@@ -13,7 +13,7 @@ const allTab = document.querySelector(".all-tab");
 const btnCancel = document.querySelectorAll(".btn-cancel");
 const projectsContainer = document.querySelector(".projects-container");
 const todoContainer = document.querySelector(".todo-container");
-
+const checkbox = document.querySelector("[data-checkbox]");
 
 addNewProject.addEventListener("click", DOM.displayProjectModal);
 
@@ -49,3 +49,5 @@ window.addEventListener("DOMContentLoaded", () => {
   DOM.displayAllProjects();
   DOM.displayAllTodos();
 });
+
+checkbox.addEventListener("click",DOM.handleCheckbox)
