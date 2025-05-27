@@ -80,13 +80,13 @@ export function editTodo(
   todo.title = title;
   todo.description = description;
   todo.dueDate = dueDate;
-  // todo.priority = priority;
-  // todo.isCompleted = isCompleted;
+  todo.priority = priority;
+  todo.isCompleted = isCompleted;
 }
 
 // Hard Coded
 let id = projects[0].id;
 let id2 = projects[1].id;
-createAndUpdateTodoToProject(id, ["Hiii", "laghlajfl", "2028-05-22"]);
-createAndUpdateTodoToProject(id, ["Hiii2", "laghlajfl", "2023-06-22"]);
-createAndUpdateTodoToProject(id2, ["Hiii3", "laghlajfl", "2024-07-22"]);
+createAndUpdateTodoToProject(id, ["Hiii", "laghlajfl", "2028-05-22","low"]);
+createAndUpdateTodoToProject(id, ["Hiii2", "laghlajfl", "2023-06-22","high"]);
+createAndUpdateTodoToProject(id2, ["Hiii3", "laghlajfl", "2024-07-22","medium"]);

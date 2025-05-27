@@ -23,7 +23,7 @@ const addNewTodo = document.querySelector(".add-new-todo");
 const projectAddBtn = document.querySelector(".project-add-btn");
 const todoHeaderTitle = document.querySelector(".todo-header-title");
 const projectHeaderTitle = document.querySelector(".project-header-title");
-
+const priorities = document.querySelectorAll("input[name='Priority']");
 
 
 function disable(...elems) {
@@ -44,6 +44,22 @@ function changeProjectAddBtnText(text) {
   projectAddBtn.textContent = text;
   projectHeaderTitle.textContent = text;
 }
+function unCheckAllPriortiy() {
+  const priority = document.querySelectorAll("input[name='Priority']");
+  priority.forEach((prio) => (prio.checked = false));
+}
+function getCurrentPriority() {
+  const priority = document.querySelector('input[name="Priority"]:checked');
+  return priority;
+}
+function selectPriority(priorityId) {
+  const priority = document.querySelector(
+    `#${priorityId}`
+  );
+  if (priority) {
+    priority.checked = true;
+  }
+}
 
 const checkEmptyValue = (value) => {
   //! Matches empty string and all white spaces.
@@ -60,6 +76,7 @@ const clearInputs = () => {
   todoTitle.value = "";
   todoDescription.value = "";
   todoDate.value = "";
+  unCheckAllPriortiy();
 };
 export const displayAllProjects = () => {
   let allProjects = Logic.allProjects();
@@ -95,7 +112,7 @@ export const closeModals = () => {
   addHiddenClass(projectInputContainer);
   addHiddenClass(overlay);
   removeHiddenClass(btnAddTodo);
-  enable(todoTitle, todoDescription, todoDate);
+  enable(todoTitle, todoDescription, todoDate,...priorities);
   changeTodoAddBtnText("Add");
   changeProjectAddBtnText("Add");
 };
@@ -120,8 +137,6 @@ export const deleteProject = (projectId) => {
   displayAllProjects();
   displayAllTodos();
 };
-
-
 
 //! For Todos
 function displayTodos(todos) {
@@ -151,18 +166,21 @@ function displayTodos(todos) {
 }
 export function addTodoToDom() {
   if (checkEmptyValue(todoTitle.value)) return;
+  const todoPriority = getCurrentPriority();
 
   if (editMode && editTodoId && editProjectId) {
     Logic.editTodo(editTodoId, editProjectId, [
       todoTitle.value,
       todoDescription.value,
       todoDate.value,
+      todoPriority ? todoPriority.id : null
     ]);
   } else {
     Logic.createAndUpdateTodoToProject(currentProjectId, [
       todoTitle.value,
       todoDescription.value,
       todoDate.value,
+      todoPriority ? todoPriority.id : null
     ]);
   }
 
@@ -229,7 +247,6 @@ export function handleProjectContainer(e) {
 }
 export function handleTodoContainer(e) {
   const todo = e.target.closest("div[data-todo-id]");
-  console.log(todo)
   if (!todo) return;
   const todoId = todo.dataset.todoId;
   const projectId = todo.dataset.projectId;
@@ -244,7 +261,8 @@ export function handleTodoContainer(e) {
     todoTitle.value = todoToEdit.title;
     todoDescription.value = todoToEdit.description;
     todoDate.value = todoToEdit.dueDate;
-    // todoPriority.value = todoToEdit.priority;
+    selectPriority(todoToEdit.priority);
+
 
     editMode = true;
     editTodoId = todoId;
@@ -259,20 +277,17 @@ export function handleTodoContainer(e) {
     todoTitle.value = todoToView.title;
     todoDescription.value = todoToView.description;
     todoDate.value = todoToView.dueDate;
+    selectPriority(todoToView.priority);
 
-    disable(todoTitle, todoDescription, todoDate);
+
+    disable(todoTitle, todoDescription, todoDate,...priorities);
     changeTodoAddBtnText("View");
     addHiddenClass(btnAddTodo);
     displayTodoModal();
-    return
+    return;
   }
 
-  let checkbox = todo.querySelector("input")
+  let checkbox = todo.querySelector("input");
   // Toggles checkbox
-  checkbox.checked=!checkbox.checked
-  
-}
-
-export function handleCheckbox() {
-  // checkbox.checked = true;
+  checkbox.checked = !checkbox.checked;
 }

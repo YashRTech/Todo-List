@@ -13,7 +13,8 @@ const allTab = document.querySelector(".all-tab");
 const btnCancel = document.querySelectorAll(".btn-cancel");
 const projectsContainer = document.querySelector(".projects-container");
 const todoContainer = document.querySelector(".todo-container");
-const allTodos = document.querySelectorAll(".todo");
+const selectPriority = document.querySelector("input[name='Priority']:checked");
+
 
 addNewProject.addEventListener("click", DOM.displayProjectModal);
 
@@ -52,6 +53,3 @@ window.addEventListener("DOMContentLoaded", () => {
 
 
 
-allTodos.forEach(todo => {
-  todo.addEventListener("click",DOM.handleCheckbox)
-})
