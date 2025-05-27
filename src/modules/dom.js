@@ -175,6 +175,11 @@ export function addTodoToDom() {
   if (checkEmptyValue(todoTitle.value)) return;
   const todoPriority = getCurrentPriority();
 
+  if (!todoPriority) {
+    alert("You must have to choose any one of the priority");
+    return;
+  };
+
   if (editMode && editTodoId && editProjectId) {
     Logic.editTodo(editTodoId, editProjectId, [
       todoTitle.value,
