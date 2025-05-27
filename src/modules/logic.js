@@ -89,4 +89,4 @@ let id = projects[0].id;
 let id2 = projects[1].id;
 createAndUpdateTodoToProject(id, ["Hiii", "laghlajfl", "2028-05-22","low"]);
 createAndUpdateTodoToProject(id, ["Hiii2", "laghlajfl", "2023-06-22","high"]);
-createAndUpdateTodoToProject(id2, ["Hiii3", "laghlajfl", "2024-07-22","medium"]);
+createAndUpdateTodoToProject(id2, ["Hiii3", "laghlajfl", "2024-07-22","medium",true]);

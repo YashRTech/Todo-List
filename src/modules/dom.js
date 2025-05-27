@@ -25,7 +25,6 @@ const todoHeaderTitle = document.querySelector(".todo-header-title");
 const projectHeaderTitle = document.querySelector(".project-header-title");
 const priorities = document.querySelectorAll("input[name='Priority']");
 
-
 function disable(...elems) {
   elems.forEach((elem) => {
     elem.disabled = true;
@@ -53,9 +52,7 @@ function getCurrentPriority() {
   return priority;
 }
 function selectPriority(priorityId) {
-  const priority = document.querySelector(
-    `#${priorityId}`
-  );
+  const priority = document.querySelector(`#${priorityId}`);
   if (priority) {
     priority.checked = true;
   }
@@ -112,7 +109,7 @@ export const closeModals = () => {
   addHiddenClass(projectInputContainer);
   addHiddenClass(overlay);
   removeHiddenClass(btnAddTodo);
-  enable(todoTitle, todoDescription, todoDate,...priorities);
+  enable(todoTitle, todoDescription, todoDate, ...priorities);
   changeTodoAddBtnText("Add");
   changeProjectAddBtnText("Add");
 };
@@ -145,12 +142,20 @@ function displayTodos(todos) {
     let div = document.createElement("div");
     div.dataset.todoId = todo.todoId;
     div.dataset.projectId = todo.projectId;
+    let check = "";
+    if (todo.isCompleted) {
+      check = "checked";
+    }
     div.classList.add("todo");
     div.innerHTML = `<div>
-        <p class="tick"><input type="checkbox" class="checkbox"> ${todo.title}</p>
+        <p class="tick"><input type="checkbox" class="checkbox" ${check}> <span class="todo-title">${
+          todo.title
+        }</span></p>
       </div>
       <div class="todo-right">
-      <p class="priority priority-${todo.priority}">${todo.priority.toUpperCase()}</p>
+      <p class="priority priority-${
+        todo.priority
+      }">${todo.priority.toUpperCase()}</p>
         <p class="todo-date">${todo.dueDate}</p>
         <p>
           <i class="fa-solid fa-pen-to-square todo-edit"></i>
@@ -174,14 +179,14 @@ export function addTodoToDom() {
       todoTitle.value,
       todoDescription.value,
       todoDate.value,
-      todoPriority ? todoPriority.id : null
+      todoPriority.id,
     ]);
   } else {
     Logic.createAndUpdateTodoToProject(currentProjectId, [
       todoTitle.value,
       todoDescription.value,
       todoDate.value,
-      todoPriority ? todoPriority.id : null
+      todoPriority.id,
     ]);
   }
 
@@ -252,6 +257,13 @@ export function handleTodoContainer(e) {
   const todoId = todo.dataset.todoId;
   const projectId = todo.dataset.projectId;
 
+  if (
+    e.target.classList.contains("todo-date") ||
+    e.target.classList.contains("priority")
+  ) {
+    return;
+  }
+
   if (e.target.classList.contains("todo-delete")) {
     deleteTodo(todoId, projectId);
     return;
@@ -263,7 +275,6 @@ export function handleTodoContainer(e) {
     todoDescription.value = todoToEdit.description;
     todoDate.value = todoToEdit.dueDate;
     selectPriority(todoToEdit.priority);
-
 
     editMode = true;
     editTodoId = todoId;
@@ -280,15 +291,20 @@ export function handleTodoContainer(e) {
     todoDate.value = todoToView.dueDate;
     selectPriority(todoToView.priority);
 
-
-    disable(todoTitle, todoDescription, todoDate,...priorities);
+    disable(todoTitle, todoDescription, todoDate, ...priorities);
     changeTodoAddBtnText("View");
     addHiddenClass(btnAddTodo);
     displayTodoModal();
     return;
   }
 
+  let todoFromData = Logic.getCurrentTodo(todoId, projectId);
   let checkbox = todo.querySelector("input");
+  if (e.target.classList.contains("checkbox")) {
+    checkbox.checked = !checkbox.checked;
+    todoFromData.isCompleted = !todoFromData.isCompleted;
+  }
+
   // Toggles checkbox
   checkbox.checked = !checkbox.checked;
 }

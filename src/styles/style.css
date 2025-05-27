@@ -240,8 +240,15 @@ main {
   border-radius: 10px;
 }
 
+input[type="radio"]:checked{
+  accent-color: blue;
+}
+input[type="checkbox"]:checked{
+  accent-color:rgb(0, 217, 255)
+}
 
-.add-new-project,.add-new-todo,.close-btn,.todo-edit,.todo-delete,.todo-details,.todo{
+
+.add-new-project,.add-new-todo,.close-btn,.todo-edit,.todo-delete,.todo-details,.todo,.checkbox{
   cursor: pointer;
 }
 
