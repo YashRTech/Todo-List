@@ -150,6 +150,7 @@ function displayTodos(todos) {
         <p class="tick"><input type="checkbox" class="checkbox"> ${todo.title}</p>
       </div>
       <div class="todo-right">
+      <p class="priority priority-${todo.priority}">${todo.priority.toUpperCase()}</p>
         <p class="todo-date">${todo.dueDate}</p>
         <p>
           <i class="fa-solid fa-pen-to-square todo-edit"></i>

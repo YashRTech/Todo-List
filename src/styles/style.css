@@ -29,9 +29,12 @@ hr {
   --light-grey: #f7f7f7;
   --dark-grey: #757575;
   --white: #ffffff;
-  --green: #38ce58;
+  --green: #38ce57;
+  --light-green:#046f1b;
   --yellow: #f3e035;
+  --light-yellow: #b3a100;
   --red: #ff4545;
+  --light-red: #b00000;
   --dark-red: #c46161;
 }
 body {
@@ -142,6 +145,7 @@ main {
 .todo-right {
   display: flex;
   gap: 10px;
+  align-items: center;
 }
 
 
@@ -243,6 +247,22 @@ main {
 
 textarea{
   resize: none;
+}
+
+
+.priority{
+  padding: 5px 20px;
+  border-radius: 20px;
+  color: var(--white);
+}
+.priority-low{
+  background-color: var(--light-green);
+}
+.priority-high{
+  background-color: var(--light-red);
+}
+.priority-medium{
+  background-color: var(--light-yellow);
 }
 
 
