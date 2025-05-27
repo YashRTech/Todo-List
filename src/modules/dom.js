@@ -1,4 +1,5 @@
 import * as Logic from "./logic.js";
+import { updateDataInLocalStorage } from "./localstorage.js";
 
 let editMode = true;
 let editProjectId = null;
@@ -303,8 +304,12 @@ export function handleTodoContainer(e) {
   if (e.target.classList.contains("checkbox")) {
     checkbox.checked = !checkbox.checked;
     todoFromData.isCompleted = !todoFromData.isCompleted;
+    updateDataInLocalStorage();
+    return
   }
 
   // Toggles checkbox
   checkbox.checked = !checkbox.checked;
+  todoFromData.isCompleted = !todoFromData.isCompleted;
+  updateDataInLocalStorage();
 }

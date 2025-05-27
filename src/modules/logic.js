@@ -1,20 +1,15 @@
 import { Todo, Project } from "./factories.js";
-
-
+import { updateDataInLocalStorage } from "./localstorage.js";
 
 let projects = JSON.parse(localStorage.getItem("todoList")) || [];
-// let allTodos = getAllTodos();
-function updateDataInLocalStorage() {
-  localStorage.setItem("todoList", JSON.stringify(allProjects));
+
+
+
+
+export function allProjects() {
+  return projects;
 }
 
-if (projects.length === 0) {
-  let project1 = new Project("Yash");
-  let project2 = new Project("Krish");
-  createAndUpdateProjects(project1.name);
-  createAndUpdateProjects(project2.name);
-}
-export const allProjects = () => projects;
 
 export function getCurrentTodo(todoId, projectId) {
   let project = getCurrentProject(projectId);
@@ -91,15 +86,3 @@ export function editTodo(
   updateDataInLocalStorage();
 }
 
-// Hard Coded
-let id = projects[0].id;
-let id2 = projects[1].id;
-createAndUpdateTodoToProject(id, ["Hiii", "laghlajfl", "2028-05-22", "low"]);
-createAndUpdateTodoToProject(id, ["Hiii2", "laghlajfl", "2023-06-22", "high"]);
-createAndUpdateTodoToProject(id2, [
-  "Hiii3",
-  "laghlajfl",
-  "2024-07-22",
-  "medium",
-  true,
-]);
