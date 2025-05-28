@@ -65,6 +65,10 @@ function selectPriority(priorityId) {
     priority.checked = true;
   }
 }
+function displayTaskCount(count) {
+  const countContainer = document.querySelector('.task-count');
+  countContainer.textContent=count
+}
 
 const checkEmptyValue = (value) => {
   //! Matches empty string and all white spaces.
@@ -236,6 +240,7 @@ export function addTodoToDom() {
 export function displayCurrentProjectTodos(projectId) {
   let currentProject = Logic.getCurrentProject(projectId);
   displayMainHeading(currentProject.name);
+  displayTaskCount(currentProject.todos.length)
   displayTodos(currentProject.todos);
 }
 export function deleteTodo(todoId, projectId) {
@@ -266,6 +271,7 @@ export function displayAllTodos() {
   addHiddenClass(addNewTodo);
   let allTodos = Logic.getAllTodos();
   displayMainHeading(currentTab);
+  displayTaskCount(allTodos.length)
   displayTodos(allTodos);
 }
 
@@ -298,6 +304,7 @@ export function handleProjectContainer(e) {
   currentProjectId = projectId;
   currentTab = currentProject.name;
   displayMainHeading(currentTab);
+  displayTaskCount(currentProject.todos.length)
   removeHiddenClass(addNewTodo);
   displayTodos(currentProject.todos);
 }
@@ -372,6 +379,7 @@ export function displayCompletedTab() {
   const completedTodos = allTodos.filter((todo) => todo.isCompleted);
   currentTab = "Completed";
   displayMainHeading(currentTab);
+  displayTaskCount(completedTodos.length);
   displayTodos(completedTodos);
 }
 
@@ -381,6 +389,7 @@ export function displayImportantTab() {
   const importantTodos = allTodos.filter((todo) => todo.priority === "high");
   currentTab = "Important";
   displayMainHeading(currentTab);
+  displayTaskCount(importantTodos.length)
   displayTodos(importantTodos);
 }
 
@@ -392,6 +401,7 @@ export function displayTodayTab() {
   const todayTodos = allTodos.filter((todo) => todo.dueDate === today);
   currentTab = "Today";
   displayMainHeading(currentTab);
+  displayTaskCount(todayTodos.length)
   displayTodos(todayTodos);
 }
 
@@ -417,5 +427,7 @@ export function displayWeekTab() {
 
   currentTab = "Week";
   displayMainHeading(currentTab);
+  displayTaskCount(weekTodos.length)
   displayTodos(weekTodos);
 }
+
