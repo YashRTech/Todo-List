@@ -2,27 +2,18 @@ import { Todo, Project } from "./factories.js";
 import { updateDataInLocalStorage } from "./localstorage.js";
 import { format } from "date-fns";
 
+//! Taking data from localStorage and this is our main head and it handles our everything 
 let projects = JSON.parse(localStorage.getItem("todoList")) || [];
 
 
-
+//! For Projects
 
 export function allProjects() {
   return projects;
 }
-
-
-export function getCurrentTodo(todoId, projectId) {
-  let project = getCurrentProject(projectId);
-  let todo = project.todos.find((todo) => todo.todoId === todoId);
-  return todo;
-}
-//! For Projects
-
 export function getCurrentProject(projectId) {
   return projects.find((project) => project.id === projectId);
 }
-
 export function createAndUpdateProjects(projectName) {
   let project = new Project(projectName);
   projects.push(project);
@@ -41,6 +32,10 @@ export function editProjectName(projectId, projectName) {
   }
 }
 
+
+
+//! For Todos
+
 export function getAllTodos() {
   let allTodo = [];
   projects.forEach((project) => {
@@ -49,9 +44,11 @@ export function getAllTodos() {
 
   return allTodo;
 }
-
-//! For Todos
-
+export function getCurrentTodo(todoId, projectId) {
+  let project = getCurrentProject(projectId);
+  let todo = project.todos.find((todo) => todo.todoId === todoId);
+  return todo;
+}
 export function createAndUpdateTodoToProject(
   projectId,
   [title, description, dueDate, priority, isCompleted]
@@ -65,7 +62,6 @@ export function createAndUpdateTodoToProject(
   currentProject.todos.push(todo);
   updateDataInLocalStorage();
 }
-
 export function deleteAndUpdateTodo(todoId, projectId) {
   let project = getCurrentProject(projectId);
   const todoIndex = project.todos.findIndex((todo) => todo.todoId === todoId);

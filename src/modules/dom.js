@@ -1,6 +1,19 @@
 import * as Logic from "./logic.js";
 import { updateDataInLocalStorage } from "./localstorage.js";
 import { format, isWithinInterval, parse, addDays, startOfDay } from "date-fns";
+import {
+  disable,
+  enable,
+  changeTodoAddBtnText,
+  changeProjectAddBtnText,
+  unCheckAllPriortiy,
+  getCurrentPriority,
+  selectPriority,
+  displayTaskCount,
+  checkEmptyValue,
+  addHiddenClass,
+  removeHiddenClass,
+} from "./utility.js";
 
 let editMode = true;
 let editProjectId = null;
@@ -10,85 +23,61 @@ let currentTab = "All";
 let task = null;
 
 const overlay = document.querySelector(".overlay");
+
+// input containers
 const projectInputContainer = document.querySelector(
   ".project-input-container"
 );
 const todoInputContainer = document.querySelector(".todo-input-container");
+
+// Project Inputs
 const projectName = document.querySelector("#project-name");
+
+/* Todo Inputs */
 const todoTitle = document.querySelector("#todo-title");
 const todoDescription = document.querySelector("#todo-description");
 const todoDate = document.querySelector("#todo-date");
 const btnAddTodo = document.querySelector(".todo-add-btn");
 
+// Containers that display all todos and projects
 const projectsContainer = document.querySelector(".projects-container");
 const todoContainer = document.querySelector(".todo-container");
+
+// Add new Todo Modal
 const addNewTodo = document.querySelector(".add-new-todo");
-const projectAddBtn = document.querySelector(".project-add-btn");
-const todoHeaderTitle = document.querySelector(".todo-header-title");
-const projectHeaderTitle = document.querySelector(".project-header-title");
+
 const priorities = document.querySelectorAll("input[name='Priority']");
 
+// Delete Modal
 const deleteModal = document.querySelector(".delete-modal");
-const deleteModalTitle = document.querySelector(".delete-modal-title");
-const deleteModalProjectOrTodoName = document.querySelector(
-  ".delete-project-or-todo-name"
-);
-const confirmDelete = document.querySelector(".confirm-delete");
 
-function disable(...elems) {
-  elems.forEach((elem) => {
-    elem.disabled = true;
-  });
-}
-function enable(...elems) {
-  elems.forEach((elem) => {
-    elem.disabled = false;
-  });
-}
-function changeTodoAddBtnText(text) {
-  btnAddTodo.textContent = text;
-  todoHeaderTitle.textContent = text;
-}
-function changeProjectAddBtnText(text) {
-  projectAddBtn.textContent = text;
-  projectHeaderTitle.textContent = text;
-}
-function unCheckAllPriortiy() {
-  const priority = document.querySelectorAll("input[name='Priority']");
-  priority.forEach((prio) => (prio.checked = false));
-}
-function getCurrentPriority() {
-  const priority = document.querySelector('input[name="Priority"]:checked');
-  return priority;
-}
-function selectPriority(priorityId) {
-  const priority = document.querySelector(`#${priorityId}`);
-  if (priority) {
-    priority.checked = true;
-  }
-}
-function displayTaskCount(count) {
-  const countContainer = document.querySelector(".task-count");
-  countContainer.textContent = count;
-}
-
-const checkEmptyValue = (value) => {
-  //! Matches empty string and all white spaces.
-  if (/^\s*$/.test(value)) return true;
-};
-const addHiddenClass = (elem) => {
-  elem.classList.add("hidden");
-};
-const removeHiddenClass = (elem) => {
-  elem.classList.remove("hidden");
-};
-const clearInputs = () => {
+// Our Functions
+function clearInputs() {
   projectName.value = "";
   todoTitle.value = "";
   todoDescription.value = "";
   todoDate.value = "";
   unCheckAllPriortiy();
-};
+}
+export function displayMainHeading(heading) {
+  const mainHeading = document.querySelector(".heading-main");
+  mainHeading.textContent = heading;
+}
+function getNext7DaysTodos(todos) {
+  const today = startOfDay(new Date()); // current date without time
+  const sevenDaysLater = addDays(today, 7); // aaj se 7 din baad tak
+
+  return todos.filter((todo) => {
+    const todoDate = parse(todo.dueDate, "dd MMM yyyy", new Date()); // parses date String into date object
+    return isWithinInterval(todoDate, {
+      start: today,
+      end: sevenDaysLater,
+    });
+  });
+}
+
+
+// Delete Modals
 function displayDeleteModal() {
   removeHiddenClass(overlay);
   removeHiddenClass(deleteModal);
@@ -98,11 +87,51 @@ export function closeDeleteModal() {
   addHiddenClass(deleteModal);
 }
 function editDeleteModal(projectOrTask, projectNameOrTaskTitle) {
+  const deleteModalTitle = document.querySelector(".delete-modal-title");
+  const deleteModalProjectOrTodoName = document.querySelector(
+    ".delete-project-or-todo-name"
+  );
   deleteModalTitle.textContent = projectOrTask;
   deleteModalProjectOrTodoName.textContent = projectNameOrTaskTitle;
 }
+export function handleConfirmDelete() {
+  if (task === "Project") {
+    deleteProject(editProjectId);
+  }
+  if (task === "Todo") {
+    deleteTodo(editTodoId, editProjectId);
+  }
+  closeDeleteModal();
+}
 
-export const displayAllProjects = () => {
+
+// Input Modals
+export function displayProjectModal() {
+  addHiddenClass(todoInputContainer);
+  removeHiddenClass(overlay);
+  removeHiddenClass(projectInputContainer);
+}
+export function displayTodoModal() {
+  const priority = document.querySelector("input[id='high']");
+  priority.checked = true;
+  addHiddenClass(projectInputContainer);
+  removeHiddenClass(overlay);
+  removeHiddenClass(todoInputContainer);
+}
+export function closeModals() {
+  clearInputs();
+  addHiddenClass(todoInputContainer);
+  addHiddenClass(projectInputContainer);
+  addHiddenClass(overlay);
+  removeHiddenClass(btnAddTodo);
+  enable(todoTitle, todoDescription, todoDate, ...priorities);
+  changeTodoAddBtnText("Add");
+  changeProjectAddBtnText("Add");
+}
+
+
+// For projects
+export function displayAllProjects() {
   let allProjects = Logic.allProjects();
   // Clear before updating
   projectsContainer.textContent = "";
@@ -118,29 +147,8 @@ export const displayAllProjects = () => {
   </a>`;
     projectsContainer.appendChild(newProject);
   });
-};
-
-export const displayProjectModal = () => {
-  addHiddenClass(todoInputContainer);
-  removeHiddenClass(overlay);
-  removeHiddenClass(projectInputContainer);
-};
-export const displayTodoModal = () => {
-  addHiddenClass(projectInputContainer);
-  removeHiddenClass(overlay);
-  removeHiddenClass(todoInputContainer);
-};
-export const closeModals = () => {
-  clearInputs();
-  addHiddenClass(todoInputContainer);
-  addHiddenClass(projectInputContainer);
-  addHiddenClass(overlay);
-  removeHiddenClass(btnAddTodo);
-  enable(todoTitle, todoDescription, todoDate, ...priorities);
-  changeTodoAddBtnText("Add");
-  changeProjectAddBtnText("Add");
-};
-export const addAndEditProjectToDom = () => {
+}
+export function addAndEditProjectToDom() {
   if (checkEmptyValue(projectName.value)) return;
 
   if (editMode && editProjectId) {
@@ -156,14 +164,15 @@ export const addAndEditProjectToDom = () => {
   // Reset
   editMode = false;
   editProjectId = null;
-};
-export const deleteProject = (projectId) => {
+}
+export function deleteProject(projectId) {
   Logic.deleteAndUpdateProjects(projectId);
   displayAllProjects();
   displayAllTodos();
-};
+}
 
-//! For Todos
+
+// For Todos
 function displayTodos(todos) {
   todoContainer.textContent = "";
   todos.forEach((todo) => {
@@ -251,7 +260,6 @@ export function addTodoToDom() {
   editTodoId = null;
   editProjectId = null;
 }
-
 export function displayCurrentProjectTodos(projectId) {
   let currentProject = Logic.getCurrentProject(projectId);
   displayMainHeading(currentProject.name);
@@ -281,20 +289,8 @@ export function deleteTodo(todoId, projectId) {
   displayTodos(currentProjectTodos);
 }
 
-export function displayAllTodos() {
-  currentTab = "All";
-  addHiddenClass(addNewTodo);
-  let allTodos = Logic.getAllTodos();
-  displayMainHeading(currentTab);
-  displayTaskCount(allTodos.length);
-  displayTodos(allTodos);
-}
 
-export function displayMainHeading(heading) {
-  const mainHeading = document.querySelector(".heading-main");
-  mainHeading.textContent = heading;
-}
-
+// Handling Main containers
 export function handleProjectContainer(e) {
   const project = e.target.closest("div[id]");
   if (!project) return;
@@ -342,7 +338,7 @@ export function handleTodoContainer(e) {
 
   if (e.target.classList.contains("todo-delete")) {
     task = "Todo";
-    const todoToDelete = Logic.getCurrentTodo(todoId,projectId);
+    const todoToDelete = Logic.getCurrentTodo(todoId, projectId);
     editDeleteModal(task, todoToDelete.title);
     displayDeleteModal();
     editProjectId = projectId;
@@ -382,9 +378,8 @@ export function handleTodoContainer(e) {
   }
 
   let todoFromData = Logic.getCurrentTodo(todoId, projectId);
-  let checkbox = todo.querySelector("input");
+  let checkbox = todo.querySelector("input[type='checkbox']");
   if (e.target.classList.contains("checkbox")) {
-    checkbox.checked = !checkbox.checked;
     todoFromData.isCompleted = !todoFromData.isCompleted;
     updateDataInLocalStorage();
     return;
@@ -396,17 +391,8 @@ export function handleTodoContainer(e) {
   updateDataInLocalStorage();
 }
 
-export function handleConfirmDelete() {
-  if (task === "Project") {
-    deleteProject(editProjectId);
-  }
-  if (task === "Todo") {
-    deleteTodo(editTodoId, editProjectId);
-  }
-  closeDeleteModal();
-}
 
-//! for all other tabs
+// for Tabs
 export function displayCompletedTab() {
   const allTodos = Logic.getAllTodos();
   addHiddenClass(addNewTodo);
@@ -416,7 +402,6 @@ export function displayCompletedTab() {
   displayTaskCount(completedTodos.length);
   displayTodos(completedTodos);
 }
-
 export function displayImportantTab() {
   const allTodos = Logic.getAllTodos();
   addHiddenClass(addNewTodo);
@@ -426,7 +411,6 @@ export function displayImportantTab() {
   displayTaskCount(importantTodos.length);
   displayTodos(importantTodos);
 }
-
 export function displayTodayTab() {
   const allTodos = Logic.getAllTodos();
   addHiddenClass(addNewTodo);
@@ -438,20 +422,6 @@ export function displayTodayTab() {
   displayTaskCount(todayTodos.length);
   displayTodos(todayTodos);
 }
-
-function getNext7DaysTodos(todos) {
-  const today = startOfDay(new Date()); // current date without time
-  const sevenDaysLater = addDays(today, 7); // aaj se 7 din baad tak
-
-  return todos.filter((todo) => {
-    const todoDate = parse(todo.dueDate, "dd MMM yyyy", new Date()); // parses date String into date object
-    return isWithinInterval(todoDate, {
-      start: today,
-      end: sevenDaysLater,
-    });
-  });
-}
-
 export function displayWeekTab() {
   const allTodos = Logic.getAllTodos();
   addHiddenClass(addNewTodo);
@@ -463,4 +433,12 @@ export function displayWeekTab() {
   displayMainHeading(currentTab);
   displayTaskCount(weekTodos.length);
   displayTodos(weekTodos);
+}
+export function displayAllTodos() {
+  currentTab = "All";
+  addHiddenClass(addNewTodo);
+  let allTodos = Logic.getAllTodos();
+  displayMainHeading(currentTab);
+  displayTaskCount(allTodos.length);
+  displayTodos(allTodos);
 }
