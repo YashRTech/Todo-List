@@ -33,6 +33,11 @@ const todoHeaderTitle = document.querySelector(".todo-header-title");
 const projectHeaderTitle = document.querySelector(".project-header-title");
 const priorities = document.querySelectorAll("input[name='Priority']");
 
+const deleteModal = document.querySelector(".delete-modal");
+const deleteModalTitle = document.querySelector(".delete-modal-title");
+const deleteModalProjectOrTodoName = document.querySelector(".delete-project-or-todo-name");
+const confirmDelete = document.querySelector(".confirm-delete");
+
 function disable(...elems) {
   elems.forEach((elem) => {
     elem.disabled = true;
@@ -69,6 +74,11 @@ function displayTaskCount(count) {
   const countContainer = document.querySelector('.task-count');
   countContainer.textContent=count
 }
+function handleConfirmDelete(task,projectId,todoId) {
+  if (task === "Project") {
+    deleteProject(projectId);
+  }
+}
 
 const checkEmptyValue = (value) => {
   //! Matches empty string and all white spaces.
@@ -87,6 +97,19 @@ const clearInputs = () => {
   todoDate.value = "";
   unCheckAllPriortiy();
 };
+function displayDeleteModal() {
+  removeHiddenClass(overlay);
+  removeHiddenClass(deleteModal);
+}
+export function closeDeleteModal() {
+  addHiddenClass(overlay);
+  addHiddenClass(deleteModal);
+}
+function editDeleteModal(projectOrTask, projectNameOrTaskTitle) {
+  deleteModalTitle.textContent = projectOrTask;
+  deleteModalProjectOrTodoName.textContent = projectNameOrTaskTitle;
+}
+
 export const displayAllProjects = () => {
   let allProjects = Logic.allProjects();
   // Clear before updating
@@ -286,6 +309,7 @@ export function handleProjectContainer(e) {
   const projectId = project.id;
 
   if (e.target.classList.contains("delete-project")) {
+    displayDeleteModal();
     deleteProject(projectId);
     return;
   }

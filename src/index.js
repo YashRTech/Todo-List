@@ -17,6 +17,7 @@ const todayTab = document.querySelector(".today-tab");
 const btnCancel = document.querySelectorAll(".btn-cancel");
 const projectsContainer = document.querySelector(".projects-container");
 const todoContainer = document.querySelector(".todo-container");
+const closeDeleteModal = document.querySelectorAll(".close-delete-modal");
 
 
 
@@ -59,4 +60,8 @@ window.addEventListener("DOMContentLoaded", () => {
 completedTab.addEventListener('click',DOM.displayCompletedTab)
 importantTab.addEventListener('click',DOM.displayImportantTab)
 todayTab.addEventListener('click',DOM.displayTodayTab)
-weekTab.addEventListener('click',DOM.displayWeekTab)
+weekTab.addEventListener('click', DOM.displayWeekTab)
+
+closeDeleteModal.forEach(modal => {
+  modal.addEventListener("click",DOM.closeDeleteModal)
+});

@@ -151,7 +151,7 @@ main {
 
 
 /*! Project input container */
-.project-input-container,.todo-input-container {
+.project-input-container,.todo-input-container,.delete-modal {
   position: fixed;
   top: 50%;
   left: 50%;
@@ -165,7 +165,7 @@ main {
   gap: 20px;
   flex-direction: column;
 }
-.project-input-header,.todo-input-header {
+.project-input-header,.todo-input-header ,.delete-modal-header{
   background-image: linear-gradient(
     90deg,
     var(--aqua) 0%,
@@ -177,6 +177,10 @@ main {
   justify-content: space-between;
   color: var(--light-grey);
 }
+.delete-modal-header{
+  background: linear-gradient(90deg, var(--dark-red) 0%, var(--red) 100%);
+}
+
 .project-inputs,.todo-inputs {
   padding: 0 20px 20px;
   color: var(--dark-grey);
@@ -217,6 +221,10 @@ main {
   background-color: var(--light-aqua);
   color: var(--light-grey);
 }
+.confirm-delete{
+  background-color: var(--red);
+  color: var(--white);
+}
 
 .priorities{
   display: flex;
@@ -248,7 +256,7 @@ input[type="checkbox"]:checked{
 }
 
 
-.add-new-project,.add-new-todo,.close-btn,.todo-edit,.todo-delete,.todo-details,.todo,.checkbox{
+.add-new-project,.add-new-todo,.close-btn,.todo-edit,.todo-delete,.todo-details,.todo,.checkbox,.close-delete-modal{
   cursor: pointer;
 }
 
