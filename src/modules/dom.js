@@ -1,6 +1,12 @@
 import * as Logic from "./logic.js";
 import { updateDataInLocalStorage } from "./localstorage.js";
-import { format } from "date-fns";
+import {
+  format,
+  isWithinInterval,
+  parse,
+  addDays,
+  startOfDay,
+} from "date-fns";
 
 let editMode = true;
 let editProjectId = null;
@@ -152,8 +158,8 @@ function displayTodos(todos) {
     div.classList.add("todo");
     div.innerHTML = `<div>
         <p class="tick"><input type="checkbox" class="checkbox" ${check}> <span class="todo-title">${
-          todo.title
-        }</span></p>
+      todo.title
+    }</span></p>
       </div>
       <div class="todo-right">
       <p class="priority priority-${
@@ -180,7 +186,7 @@ export function addTodoToDom() {
   if (!todoPriority) {
     alert("You must have to choose any one of the priority");
     return;
-  };
+  }
 
   if (editMode && editTodoId && editProjectId) {
     let currentTodo = Logic.getCurrentTodo(editTodoId, editProjectId);
@@ -189,7 +195,7 @@ export function addTodoToDom() {
       todoDescription.value,
       todoDate.value,
       todoPriority.id,
-      currentTodo.isCompleted
+      currentTodo.isCompleted,
     ]);
   } else {
     Logic.createAndUpdateTodoToProject(currentProjectId, [
@@ -201,11 +207,26 @@ export function addTodoToDom() {
   }
 
   closeModals();
-  if (currentTab === "All") {
-    displayAllTodos();
-  } else {
-    displayCurrentProjectTodos(currentProjectId);
+  switch (currentTab) {
+    case "All":
+      displayAllTodos();
+      break;
+    case "Completed":
+      displayCompletedTab();
+      break;
+    case "Important":
+      displayImportantTab();
+      break;
+    case "Today":
+      displayTodayTab();
+      break;
+    case "Week":
+      displayWeekTab();
+      break;
+    default:
+      displayCurrentProjectTodos(currentProjectId);
   }
+
   // Reset
   editMode = false;
   editTodoId = null;
@@ -214,14 +235,27 @@ export function addTodoToDom() {
 
 export function displayCurrentProjectTodos(projectId) {
   let currentProject = Logic.getCurrentProject(projectId);
-  displayMainHeading(currentProject.name)
+  displayMainHeading(currentProject.name);
   displayTodos(currentProject.todos);
 }
 export function deleteTodo(todoId, projectId) {
   Logic.deleteAndUpdateTodo(todoId, projectId);
-  if (currentTab === "All") {
-    displayAllTodos();
-    return;
+  switch (currentTab) {
+    case "All":
+      displayAllTodos();
+      return;
+    case "Completed":
+      displayCompletedTab();
+      return;
+    case "Important":
+      displayImportantTab();
+      return;
+    case "Today":
+      displayTodayTab();
+      return;
+    case "Week":
+      displayWeekTab();
+      return
   }
   const currentProjectTodos = Logic.getCurrentProject(projectId).todos;
   displayTodos(currentProjectTodos);
@@ -289,7 +323,9 @@ export function handleTodoContainer(e) {
     const todoToEdit = Logic.getCurrentTodo(todoId, projectId);
     todoTitle.value = todoToEdit.title;
     todoDescription.value = todoToEdit.description;
-    todoDate.value = todoToEdit.dueDate;
+    if (todoToEdit.dueDate) {
+      todoDate.value = format(new Date(todoToEdit.dueDate), "yyyy-MM-dd");
+    }
     selectPriority(todoToEdit.priority);
 
     editMode = true;
@@ -320,7 +356,7 @@ export function handleTodoContainer(e) {
     checkbox.checked = !checkbox.checked;
     todoFromData.isCompleted = !todoFromData.isCompleted;
     updateDataInLocalStorage();
-    return
+    return;
   }
 
   // Toggles checkbox
@@ -329,32 +365,21 @@ export function handleTodoContainer(e) {
   updateDataInLocalStorage();
 }
 
-
 //! for all other tabs
 export function displayCompletedTab() {
   const allTodos = Logic.getAllTodos();
   addHiddenClass(addNewTodo);
-  const completedTodos = [];
-  allTodos.forEach(todo => {
-    if (todo.isCompleted) {
-      completedTodos.push(todo);
-    }
-  })
-  currentTab = "Completed"
+  const completedTodos = allTodos.filter((todo) => todo.isCompleted);
+  currentTab = "Completed";
   displayMainHeading(currentTab);
   displayTodos(completedTodos);
-} 
+}
 
 export function displayImportantTab() {
   const allTodos = Logic.getAllTodos();
   addHiddenClass(addNewTodo);
-  const importantTodos = [];
-  allTodos.forEach(todo => {
-    if (todo.priority==="high") {
-      importantTodos.push(todo);
-    }
-  })
-  currentTab = "Important"
+  const importantTodos = allTodos.filter((todo) => todo.priority === "high");
+  currentTab = "Important";
   displayMainHeading(currentTab);
   displayTodos(importantTodos);
 }
@@ -362,16 +387,35 @@ export function displayImportantTab() {
 export function displayTodayTab() {
   const allTodos = Logic.getAllTodos();
   addHiddenClass(addNewTodo);
-  const todayTodos = [];
-  const today = new Date().toLocaleDateString()
-  console.log(today);
-  
-  allTodos.forEach(todo => {
-    if (todo.dueDate===today) {
-      todayTodos.push(todo);
-    }
-  })
-  currentTab = "Today"
+  const today = format(new Date(), "dd MMM yyyy");
+
+  const todayTodos = allTodos.filter((todo) => todo.dueDate === today);
+  currentTab = "Today";
   displayMainHeading(currentTab);
   displayTodos(todayTodos);
+}
+
+function getNext7DaysTodos(todos) {
+  const today = startOfDay(new Date()); // current date without time
+  const sevenDaysLater = addDays(today, 7); // aaj se 7 din baad tak
+
+  return todos.filter((todo) => {
+    const todoDate = parse(todo.dueDate,'dd MMM yyyy',new Date()); // parses date String into date object
+    return isWithinInterval(todoDate, {
+      start: today,
+      end: sevenDaysLater,
+    });
+  });
+}
+
+export function displayWeekTab() {
+  const allTodos = Logic.getAllTodos();
+  addHiddenClass(addNewTodo);
+  const today = format(new Date(), "dd MMM yyyy");
+
+  const weekTodos = getNext7DaysTodos(allTodos);
+
+  currentTab = "Week";
+  displayMainHeading(currentTab);
+  displayTodos(weekTodos);
 }

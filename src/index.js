@@ -59,3 +59,4 @@ window.addEventListener("DOMContentLoaded", () => {
 completedTab.addEventListener('click',DOM.displayCompletedTab)
 importantTab.addEventListener('click',DOM.displayImportantTab)
 todayTab.addEventListener('click',DOM.displayTodayTab)
+weekTab.addEventListener('click',DOM.displayWeekTab)
