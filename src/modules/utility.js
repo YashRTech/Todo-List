@@ -50,5 +50,16 @@ const addHiddenClass = (elem) => {
 const removeHiddenClass = (elem) => {
   elem.classList.remove("hidden");
 };
+function transform(elem,value) {
+  elem.style.transform=`translateX(${value}px)`
+}
+function removeActiveClass(elem) {
+  elem.classList.remove("active");
+}
+function isMobile() {
+  return window.innerWidth <= 1000;
+}
 
-export { disable, enable, changeTodoAddBtnText, changeProjectAddBtnText,unCheckAllPriortiy,getCurrentPriority,selectPriority,displayTaskCount,checkEmptyValue,addHiddenClass,removeHiddenClass };
+export {
+  disable, enable, changeTodoAddBtnText, changeProjectAddBtnText, unCheckAllPriortiy, getCurrentPriority, selectPriority, displayTaskCount, checkEmptyValue, addHiddenClass, removeHiddenClass, transform, removeActiveClass, isMobile
+};

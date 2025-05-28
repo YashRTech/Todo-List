@@ -13,6 +13,9 @@ import {
   checkEmptyValue,
   addHiddenClass,
   removeHiddenClass,
+  transform,
+  removeActiveClass,
+  isMobile,
 } from "./utility.js";
 
 let editMode = true;
@@ -51,6 +54,10 @@ const priorities = document.querySelectorAll("input[name='Priority']");
 // Delete Modal
 const deleteModal = document.querySelector(".delete-modal");
 
+// Sidebar
+const sidebar = document.querySelector("#sidebar-menu");
+const hamMenu = document.querySelector("#menuToggle");
+
 // Our Functions
 function clearInputs() {
   projectName.value = "";
@@ -75,7 +82,6 @@ function getNext7DaysTodos(todos) {
     });
   });
 }
-
 
 // Delete Modals
 function displayDeleteModal() {
@@ -104,7 +110,6 @@ export function handleConfirmDelete() {
   closeDeleteModal();
 }
 
-
 // Input Modals
 export function displayProjectModal() {
   addHiddenClass(todoInputContainer);
@@ -128,7 +133,6 @@ export function closeModals() {
   changeTodoAddBtnText("Add");
   changeProjectAddBtnText("Add");
 }
-
 
 // For projects
 export function displayAllProjects() {
@@ -170,7 +174,6 @@ export function deleteProject(projectId) {
   displayAllProjects();
   displayAllTodos();
 }
-
 
 // For Todos
 function displayTodos(todos) {
@@ -289,7 +292,6 @@ export function deleteTodo(todoId, projectId) {
   displayTodos(currentProjectTodos);
 }
 
-
 // Handling Main containers
 export function handleProjectContainer(e) {
   const project = e.target.closest("div[id]");
@@ -318,6 +320,10 @@ export function handleProjectContainer(e) {
   const currentProject = Logic.getCurrentProject(projectId);
   currentProjectId = projectId;
   currentTab = currentProject.name;
+  if (isMobile()) {
+    removeActiveClass(hamMenu);
+    transform(sidebar, -300);
+  }
   displayMainHeading(currentTab);
   displayTaskCount(currentProject.todos.length);
   removeHiddenClass(addNewTodo);
@@ -393,13 +399,16 @@ export function handleTodoContainer(e) {
   updateDataInLocalStorage();
 }
 
-
 // for Tabs
 export function displayCompletedTab() {
   const allTodos = Logic.getAllTodos();
   addHiddenClass(addNewTodo);
   const completedTodos = allTodos.filter((todo) => todo.isCompleted);
   currentTab = "Completed";
+  if (isMobile()) {
+    removeActiveClass(hamMenu);
+    transform(sidebar, -300);
+  }
   displayMainHeading(currentTab);
   displayTaskCount(completedTodos.length);
   displayTodos(completedTodos);
@@ -409,6 +418,10 @@ export function displayImportantTab() {
   addHiddenClass(addNewTodo);
   const importantTodos = allTodos.filter((todo) => todo.priority === "high");
   currentTab = "Important";
+  if (isMobile()) {
+    removeActiveClass(hamMenu);
+    transform(sidebar, -300);
+  }
   displayMainHeading(currentTab);
   displayTaskCount(importantTodos.length);
   displayTodos(importantTodos);
@@ -420,6 +433,10 @@ export function displayTodayTab() {
 
   const todayTodos = allTodos.filter((todo) => todo.dueDate === today);
   currentTab = "Today";
+  if (isMobile()) {
+    removeActiveClass(hamMenu);
+    transform(sidebar, -300);
+  }
   displayMainHeading(currentTab);
   displayTaskCount(todayTodos.length);
   displayTodos(todayTodos);
@@ -432,6 +449,10 @@ export function displayWeekTab() {
   const weekTodos = getNext7DaysTodos(allTodos);
 
   currentTab = "Week";
+  if (isMobile()) {
+    removeActiveClass(hamMenu);
+    transform(sidebar, -300);
+  }
   displayMainHeading(currentTab);
   displayTaskCount(weekTodos.length);
   displayTodos(weekTodos);
@@ -440,7 +461,21 @@ export function displayAllTodos() {
   currentTab = "All";
   addHiddenClass(addNewTodo);
   let allTodos = Logic.getAllTodos();
+  if (isMobile()) {
+    removeActiveClass(hamMenu);
+    transform(sidebar, -300);
+  }
   displayMainHeading(currentTab);
   displayTaskCount(allTodos.length);
   displayTodos(allTodos);
+}
+
+// Menu Toggle
+export function handleMenuToggle() {
+  hamMenu.classList.toggle("active");
+  if (hamMenu.classList.contains("active")) {
+    transform(sidebar, 0);
+    return;
+  }
+  transform(sidebar, -300);
 }

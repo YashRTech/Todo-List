@@ -1,4 +1,5 @@
 import "./styles/style.css";
+import "./styles/menu.css";
 import "./modules/factories.js";
 import "./modules/logic.js";
 import * as DOM from "./modules/dom.js";
@@ -8,18 +9,28 @@ const addNewProject = document.querySelector(".add-new-project");
 const addNewTodo = document.querySelector(".add-new-todo");
 
 const closeBtn = document.querySelectorAll(".close-btn");
+const btnCancel = document.querySelectorAll(".btn-cancel");
+
+// Add project and todo from inputs
 const projectAddBtn = document.querySelector(".project-add-btn");
 const todoAddBtn = document.querySelector(".todo-add-btn");
+
+// All Tabs
 const allTab = document.querySelector(".all-tab");
 const completedTab = document.querySelector(".completed-tab");
 const importantTab = document.querySelector(".important-tab");
 const weekTab = document.querySelector(".week-tab");
 const todayTab = document.querySelector(".today-tab");
-const btnCancel = document.querySelectorAll(".btn-cancel");
+
+// Main Containers
 const projectsContainer = document.querySelector(".projects-container");
-const todoContainer = document.querySelector(".todo-container");
+const todoContainer = document.querySelector(".todo-container"); 
+
 const closeDeleteModal = document.querySelectorAll(".close-delete-modal");
 const confirmDelete = document.querySelector(".confirm-delete");
+
+const hamMenu = document.querySelector("#menuToggle");
+hamMenu.addEventListener('click', DOM.handleMenuToggle);
 
 confirmDelete.addEventListener("click", DOM.handleConfirmDelete);
 
