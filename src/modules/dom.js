@@ -1,5 +1,6 @@
 import * as Logic from "./logic.js";
 import { updateDataInLocalStorage } from "./localstorage.js";
+import { format } from "date-fns";
 
 let editMode = true;
 let editProjectId = null;
@@ -326,4 +327,51 @@ export function handleTodoContainer(e) {
   checkbox.checked = !checkbox.checked;
   todoFromData.isCompleted = !todoFromData.isCompleted;
   updateDataInLocalStorage();
+}
+
+
+//! for all other tabs
+export function displayCompletedTab() {
+  const allTodos = Logic.getAllTodos();
+  addHiddenClass(addNewTodo);
+  const completedTodos = [];
+  allTodos.forEach(todo => {
+    if (todo.isCompleted) {
+      completedTodos.push(todo);
+    }
+  })
+  currentTab = "Completed"
+  displayMainHeading(currentTab);
+  displayTodos(completedTodos);
+} 
+
+export function displayImportantTab() {
+  const allTodos = Logic.getAllTodos();
+  addHiddenClass(addNewTodo);
+  const importantTodos = [];
+  allTodos.forEach(todo => {
+    if (todo.priority==="high") {
+      importantTodos.push(todo);
+    }
+  })
+  currentTab = "Important"
+  displayMainHeading(currentTab);
+  displayTodos(importantTodos);
+}
+
+export function displayTodayTab() {
+  const allTodos = Logic.getAllTodos();
+  addHiddenClass(addNewTodo);
+  const todayTodos = [];
+  const today = new Date().toLocaleDateString()
+  console.log(today);
+  
+  allTodos.forEach(todo => {
+    if (todo.dueDate===today) {
+      todayTodos.push(todo);
+    }
+  })
+  currentTab = "Today"
+  displayMainHeading(currentTab);
+  displayTodos(todayTodos);
 }

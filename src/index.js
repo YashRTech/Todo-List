@@ -10,10 +10,14 @@ const closeBtn = document.querySelectorAll(".close-btn");
 const projectAddBtn = document.querySelector(".project-add-btn");
 const todoAddBtn = document.querySelector(".todo-add-btn");
 const allTab = document.querySelector(".all-tab");
+const completedTab = document.querySelector(".completed-tab");
+const importantTab = document.querySelector(".important-tab");
+const weekTab = document.querySelector(".week-tab");
+const todayTab = document.querySelector(".today-tab");
 const btnCancel = document.querySelectorAll(".btn-cancel");
 const projectsContainer = document.querySelector(".projects-container");
 const todoContainer = document.querySelector(".todo-container");
-const selectPriority = document.querySelector("input[name='Priority']:checked");
+
 
 
 addNewProject.addEventListener("click", DOM.displayProjectModal);
@@ -52,4 +56,6 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 
-
+completedTab.addEventListener('click',DOM.displayCompletedTab)
+importantTab.addEventListener('click',DOM.displayImportantTab)
+todayTab.addEventListener('click',DOM.displayTodayTab)

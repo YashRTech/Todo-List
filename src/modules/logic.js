@@ -1,5 +1,6 @@
 import { Todo, Project } from "./factories.js";
 import { updateDataInLocalStorage } from "./localstorage.js";
+import { format } from "date-fns";
 
 let projects = JSON.parse(localStorage.getItem("todoList")) || [];
 
@@ -55,7 +56,7 @@ export function createAndUpdateTodoToProject(
   projectId,
   [title, description, dueDate, priority, isCompleted]
 ) {
-  let todo = new Todo(title, description, dueDate, priority, isCompleted);
+  let todo = new Todo(title, description, format(new Date(dueDate),'dd MMM yyyy'), priority, isCompleted);
   todo.projectId = projectId;
   let currentProject = getCurrentProject(projectId);
   currentProject.todos.push(todo);
@@ -79,7 +80,7 @@ export function editTodo(
 
   todo.title = title;
   todo.description = description;
-  todo.dueDate = dueDate;
+  todo.dueDate = format(new Date(dueDate),'dd MMM yyyy');
   todo.priority = priority;
   todo.isCompleted = isCompleted;
 
