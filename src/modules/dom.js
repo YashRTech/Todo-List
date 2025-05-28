@@ -119,6 +119,7 @@ export const addAndEditProjectToDom = () => {
 
   if (editMode && editProjectId) {
     Logic.editProjectName(editProjectId, projectName.value);
+    displayMainHeading(projectName.value);
   } else {
     Logic.createAndUpdateProjects(projectName.value);
   }
@@ -181,11 +182,13 @@ export function addTodoToDom() {
   };
 
   if (editMode && editTodoId && editProjectId) {
+    let currentTodo = Logic.getCurrentTodo(editTodoId, editProjectId);
     Logic.editTodo(editTodoId, editProjectId, [
       todoTitle.value,
       todoDescription.value,
       todoDate.value,
       todoPriority.id,
+      currentTodo.isCompleted
     ]);
   } else {
     Logic.createAndUpdateTodoToProject(currentProjectId, [
@@ -210,6 +213,7 @@ export function addTodoToDom() {
 
 export function displayCurrentProjectTodos(projectId) {
   let currentProject = Logic.getCurrentProject(projectId);
+  displayMainHeading(currentProject.name)
   displayTodos(currentProject.todos);
 }
 export function deleteTodo(todoId, projectId) {
@@ -226,10 +230,14 @@ export function displayAllTodos() {
   currentTab = "All";
   addHiddenClass(addNewTodo);
   let allTodos = Logic.getAllTodos();
+  displayMainHeading(currentTab);
   displayTodos(allTodos);
 }
 
-export function displayMainTitle() {}
+export function displayMainHeading(heading) {
+  const mainHeading = document.querySelector(".heading-main");
+  mainHeading.textContent = heading;
+}
 
 export function handleProjectContainer(e) {
   const project = e.target.closest("div[id]");
@@ -254,6 +262,7 @@ export function handleProjectContainer(e) {
   const currentProject = Logic.getCurrentProject(projectId);
   currentProjectId = projectId;
   currentTab = currentProject.name;
+  displayMainHeading(currentTab);
   removeHiddenClass(addNewTodo);
   displayTodos(currentProject.todos);
 }

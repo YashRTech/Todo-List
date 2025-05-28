@@ -272,6 +272,10 @@ textarea{
   background-color: var(--light-yellow);
 }
 
+.checkbox:checked + .todo-title{
+  text-decoration: line-through;
+}
+
 
 /*! Overlay */
 .hidden {
