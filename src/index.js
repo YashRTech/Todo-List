@@ -18,8 +18,10 @@ const btnCancel = document.querySelectorAll(".btn-cancel");
 const projectsContainer = document.querySelector(".projects-container");
 const todoContainer = document.querySelector(".todo-container");
 const closeDeleteModal = document.querySelectorAll(".close-delete-modal");
+const confirmDelete = document.querySelector(".confirm-delete");
 
 
+confirmDelete.addEventListener('click',DOM.handleConfirmDelete)
 
 addNewProject.addEventListener("click", DOM.displayProjectModal);
 

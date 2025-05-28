@@ -1,18 +1,13 @@
 import * as Logic from "./logic.js";
 import { updateDataInLocalStorage } from "./localstorage.js";
-import {
-  format,
-  isWithinInterval,
-  parse,
-  addDays,
-  startOfDay,
-} from "date-fns";
+import { format, isWithinInterval, parse, addDays, startOfDay } from "date-fns";
 
 let editMode = true;
 let editProjectId = null;
 let currentProjectId = null;
 let editTodoId = null;
 let currentTab = "All";
+let task = null;
 
 const overlay = document.querySelector(".overlay");
 const projectInputContainer = document.querySelector(
@@ -35,7 +30,9 @@ const priorities = document.querySelectorAll("input[name='Priority']");
 
 const deleteModal = document.querySelector(".delete-modal");
 const deleteModalTitle = document.querySelector(".delete-modal-title");
-const deleteModalProjectOrTodoName = document.querySelector(".delete-project-or-todo-name");
+const deleteModalProjectOrTodoName = document.querySelector(
+  ".delete-project-or-todo-name"
+);
 const confirmDelete = document.querySelector(".confirm-delete");
 
 function disable(...elems) {
@@ -71,13 +68,8 @@ function selectPriority(priorityId) {
   }
 }
 function displayTaskCount(count) {
-  const countContainer = document.querySelector('.task-count');
-  countContainer.textContent=count
-}
-function handleConfirmDelete(task,projectId,todoId) {
-  if (task === "Project") {
-    deleteProject(projectId);
-  }
+  const countContainer = document.querySelector(".task-count");
+  countContainer.textContent = count;
 }
 
 const checkEmptyValue = (value) => {
@@ -263,7 +255,7 @@ export function addTodoToDom() {
 export function displayCurrentProjectTodos(projectId) {
   let currentProject = Logic.getCurrentProject(projectId);
   displayMainHeading(currentProject.name);
-  displayTaskCount(currentProject.todos.length)
+  displayTaskCount(currentProject.todos.length);
   displayTodos(currentProject.todos);
 }
 export function deleteTodo(todoId, projectId) {
@@ -283,7 +275,7 @@ export function deleteTodo(todoId, projectId) {
       return;
     case "Week":
       displayWeekTab();
-      return
+      return;
   }
   const currentProjectTodos = Logic.getCurrentProject(projectId).todos;
   displayTodos(currentProjectTodos);
@@ -294,7 +286,7 @@ export function displayAllTodos() {
   addHiddenClass(addNewTodo);
   let allTodos = Logic.getAllTodos();
   displayMainHeading(currentTab);
-  displayTaskCount(allTodos.length)
+  displayTaskCount(allTodos.length);
   displayTodos(allTodos);
 }
 
@@ -309,8 +301,11 @@ export function handleProjectContainer(e) {
   const projectId = project.id;
 
   if (e.target.classList.contains("delete-project")) {
+    const projectToDelete = Logic.getCurrentProject(projectId);
+    task = "Project";
+    editDeleteModal(task, projectToDelete.name);
     displayDeleteModal();
-    deleteProject(projectId);
+    editProjectId = projectId;
     return;
   }
 
@@ -328,7 +323,7 @@ export function handleProjectContainer(e) {
   currentProjectId = projectId;
   currentTab = currentProject.name;
   displayMainHeading(currentTab);
-  displayTaskCount(currentProject.todos.length)
+  displayTaskCount(currentProject.todos.length);
   removeHiddenClass(addNewTodo);
   displayTodos(currentProject.todos);
 }
@@ -346,7 +341,12 @@ export function handleTodoContainer(e) {
   }
 
   if (e.target.classList.contains("todo-delete")) {
-    deleteTodo(todoId, projectId);
+    task = "Todo";
+    const todoToDelete = Logic.getCurrentTodo(todoId,projectId);
+    editDeleteModal(task, todoToDelete.title);
+    displayDeleteModal();
+    editProjectId = projectId;
+    editTodoId = todoId;
     return;
   }
 
@@ -396,6 +396,16 @@ export function handleTodoContainer(e) {
   updateDataInLocalStorage();
 }
 
+export function handleConfirmDelete() {
+  if (task === "Project") {
+    deleteProject(editProjectId);
+  }
+  if (task === "Todo") {
+    deleteTodo(editTodoId, editProjectId);
+  }
+  closeDeleteModal();
+}
+
 //! for all other tabs
 export function displayCompletedTab() {
   const allTodos = Logic.getAllTodos();
@@ -413,7 +423,7 @@ export function displayImportantTab() {
   const importantTodos = allTodos.filter((todo) => todo.priority === "high");
   currentTab = "Important";
   displayMainHeading(currentTab);
-  displayTaskCount(importantTodos.length)
+  displayTaskCount(importantTodos.length);
   displayTodos(importantTodos);
 }
 
@@ -425,7 +435,7 @@ export function displayTodayTab() {
   const todayTodos = allTodos.filter((todo) => todo.dueDate === today);
   currentTab = "Today";
   displayMainHeading(currentTab);
-  displayTaskCount(todayTodos.length)
+  displayTaskCount(todayTodos.length);
   displayTodos(todayTodos);
 }
 
@@ -434,7 +444,7 @@ function getNext7DaysTodos(todos) {
   const sevenDaysLater = addDays(today, 7); // aaj se 7 din baad tak
 
   return todos.filter((todo) => {
-    const todoDate = parse(todo.dueDate,'dd MMM yyyy',new Date()); // parses date String into date object
+    const todoDate = parse(todo.dueDate, "dd MMM yyyy", new Date()); // parses date String into date object
     return isWithinInterval(todoDate, {
       start: today,
       end: sevenDaysLater,
@@ -451,7 +461,6 @@ export function displayWeekTab() {
 
   currentTab = "Week";
   displayMainHeading(currentTab);
-  displayTaskCount(weekTodos.length)
+  displayTaskCount(weekTodos.length);
   displayTodos(weekTodos);
 }
-
