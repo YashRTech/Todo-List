@@ -30,7 +30,7 @@ hr {
   --dark-grey: #757575;
   --white: #ffffff;
   --green: #38ce57;
-  --light-green:#046f1b;
+  --light-green: #046f1b;
   --yellow: #f3e035;
   --light-yellow: #b3a100;
   --red: #ff4545;
@@ -43,6 +43,7 @@ body {
   font-weight: 400;
   color: var(--dark-grey);
   line-height: 1.5;
+  overflow-x: hidden;
 }
 
 #header {
@@ -145,10 +146,25 @@ main {
   gap: 10px;
   align-items: center;
 }
-
+.todo-date {
+  white-space: nowrap;
+}
+.todo-left {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.todo-title {
+  white-space: nowrap;
+  max-width: 380px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
 /*! Input and Delete Modals */
-.project-input-container,.todo-input-container,.delete-modal {
+.project-input-container,
+.todo-input-container,
+.delete-modal {
   position: fixed;
   top: 50%;
   left: 50%;
@@ -162,7 +178,9 @@ main {
   gap: 20px;
   flex-direction: column;
 }
-.project-input-header,.todo-input-header ,.delete-modal-header{
+.project-input-header,
+.todo-input-header,
+.delete-modal-header {
   background-image: linear-gradient(
     90deg,
     var(--aqua) 0%,
@@ -174,24 +192,30 @@ main {
   justify-content: space-between;
   color: var(--light-grey);
 }
-.delete-modal-header{
+.delete-modal-header {
   background: linear-gradient(90deg, var(--dark-red) 0%, var(--red) 100%);
 }
 
 /* Inputs */
-.project-inputs,.todo-inputs {
+.project-inputs,
+.todo-inputs {
   padding: 0 20px 20px;
   color: var(--dark-grey);
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
-.project-input ,.todo-input{
+.project-input,
+.todo-input {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
-#project-name ,#todo-title,#todo-description,#todo-date,.priorities{
+#project-name,
+#todo-title,
+#todo-description,
+#todo-date,
+.priorities {
   padding: 10px;
   font-size: 18px;
   border: 1px solid var(--grey);
@@ -200,7 +224,8 @@ main {
   color: var(--dark-grey);
 }
 
-.project-btns,.todo-btns{
+.project-btns,
+.todo-btns {
   display: flex;
   justify-content: flex-end;
   gap: 10px;
@@ -215,83 +240,89 @@ main {
   border-radius: 5px;
   font-size: 17px;
 }
-.btn-add{
+.btn-add {
   background-color: var(--light-aqua);
   color: var(--light-grey);
 }
-.confirm-delete{
+.confirm-delete {
   background-color: var(--red);
   color: var(--white);
 }
 
-.priorities{
+.priorities {
   display: flex;
   justify-content: space-between;
-  border:none;
+  border: none;
 }
-.low{
+.low {
   background-color: var(--green);
   color: white;
 }
-.medium{
+.medium {
   background-color: var(--yellow);
   color: var(--dark-grey);
 }
-.high{
+.high {
   background-color: var(--red);
   color: white;
 }
-.low,.medium,.high{
+.low,
+.medium,
+.high {
   padding: 10px;
   border-radius: 10px;
 }
 
-input[type="radio"]:checked{
+input[type="radio"]:checked {
   accent-color: blue;
 }
-input[type="checkbox"]:checked{
-  accent-color:rgb(0, 217, 255)
+input[type="checkbox"]:checked {
+  accent-color: rgb(0, 217, 255);
 }
 
-
-.add-new-project,.add-new-todo,.close-btn,.todo-edit,.todo-delete,.todo-details,.todo,.checkbox,.close-delete-modal{
+.add-new-project,
+.add-new-todo,
+.close-btn,
+.todo-edit,
+.todo-delete,
+.todo-details,
+.todo,
+.checkbox,
+.close-delete-modal {
   cursor: pointer;
 }
 
-textarea{
+textarea {
   resize: none;
 }
 
-
-.priority{
+.priority {
   padding: 5px 20px;
   border-radius: 20px;
   color: var(--white);
 }
-.priority-low{
+.priority-low {
   background-color: var(--light-green);
 }
-.priority-high{
+.priority-high {
   background-color: var(--light-red);
 }
-.priority-medium{
+.priority-medium {
   background-color: var(--light-yellow);
 }
 
 /* Strikethrough in completed tasks */
-.checkbox:checked + .todo-title{
+.checkbox:checked + .todo-title {
   text-decoration: line-through;
 }
 
 .todo-date {
-  font-size: 16px;
   color: #ffffff;
   font-weight: 700;
   padding: 5px 20px;
   border-radius: 20px;
   background-color: var(--dark-aqua);
 }
-
 
 /*! Overlay */
 .hidden {
@@ -307,3 +338,48 @@ textarea{
   opacity: 0.4;
 }
 
+/* Media Queries */
+
+@media (width<=1200px) {
+  .todo-title {
+    max-width: 230px;
+  }
+}
+
+@media (width<=1000px) {
+  #sidebar-menu {
+    transform: translateX(-300px);
+  }
+  main {
+    margin-left: 0;
+  }
+}
+
+@media (width<=700px) {
+  .todo-title {
+    max-width: 160px;
+  }
+  .priority {
+    padding: 4px 16px;
+    font-size: 14px;
+  }
+  .todo-date{
+    padding: 4px 16px;
+    font-size: 14px;
+  }
+}
+@media (width<=600px) {
+  .task-container{
+    padding: 10px;
+  }
+  .todo-date{
+    display: none;
+  }
+}
+@media (width<=500px) {
+  .todo-title{
+    max-width: 100px;
+  }
+}
+@media (width<=700px) {
+}

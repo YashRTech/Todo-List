@@ -185,7 +185,7 @@ function displayTodos(todos) {
     }
     div.classList.add("todo");
     div.innerHTML = `<div>
-        <p class="tick"><input type="checkbox" class="checkbox" ${check}> <span class="todo-title">${
+        <p class="todo-left"><input type="checkbox" class="checkbox" ${check}> <span class="todo-title">${
       todo.title
     }</span></p>
       </div>
@@ -367,7 +367,9 @@ export function handleTodoContainer(e) {
     const todoToView = Logic.getCurrentTodo(todoId, projectId);
     todoTitle.value = todoToView.title;
     todoDescription.value = todoToView.description;
-    todoDate.value = todoToView.dueDate;
+    if (todoToView.dueDate) {
+      todoDate.value = format(new Date(todoToView.dueDate), "yyyy-MM-dd");
+    }
     selectPriority(todoToView.priority);
 
     disable(todoTitle, todoDescription, todoDate, ...priorities);
