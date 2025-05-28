@@ -110,7 +110,6 @@ main {
   overflow: auto;
   height: calc(100vh - 60px);
 }
-
 .heading-main {
   display: flex;
   justify-content: center;
@@ -120,7 +119,6 @@ main {
 .heading-main h1 {
   font-weight: 400;
 }
-
 .task-container {
   padding: 40px;
   max-width: 1000px;
@@ -133,6 +131,7 @@ main {
   justify-content: space-between;
 }
 
+/* Todos */
 .todo {
   display: flex;
   justify-content: space-between;
@@ -141,7 +140,6 @@ main {
   border-bottom: 1px solid var(--grey);
   transition: 0.3s;
 }
-
 .todo-right {
   display: flex;
   gap: 10px;
@@ -149,8 +147,7 @@ main {
 }
 
 
-
-/*! Project input container */
+/*! Input and Delete Modals */
 .project-input-container,.todo-input-container,.delete-modal {
   position: fixed;
   top: 50%;
@@ -181,6 +178,7 @@ main {
   background: linear-gradient(90deg, var(--dark-red) 0%, var(--red) 100%);
 }
 
+/* Inputs */
 .project-inputs,.todo-inputs {
   padding: 0 20px 20px;
   color: var(--dark-grey);
