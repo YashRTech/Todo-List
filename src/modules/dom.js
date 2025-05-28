@@ -143,7 +143,7 @@ export function displayAllProjects() {
     let newProject = document.createElement("div");
     newProject.setAttribute("id", project.id);
     newProject.innerHTML = `<a href="#" class="project-link">
-    <p class="project-text">${project.name}</p>
+    <p class="project-text"><i class="fa-solid fa-screwdriver-wrench"></i> ${project.name}</p>
     <div class="project-right">
         <i class="fa-solid fa-pen-to-square edit-project"></i>
         <i class="fa-solid fa-trash delete-project"></i>

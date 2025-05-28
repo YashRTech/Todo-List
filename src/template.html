@@ -23,19 +23,19 @@
         <nav id="sidebar-menu">
             <div class="default-nav">
                 <a href="#" class="link all-tab">
-                    <p>All</p>
+                    <i class="fa-regular fa-calendar-days"></i><p>All</p>
                 </a>
                 <a href="#" class="link today-tab">
-                    <p>Today</p>
+                    <i class="fa-regular fa-calendar-xmark"></i><p>Today</p>
                 </a>
                 <a href="#" class="link week-tab">
-                    <p>Week</p>
+                   <i class="fa-solid fa-calendar-week"></i><p>Week</p>
                 </a>
                 <a href="#" class="link important-tab">
-                    <p>Important</p>
+                    <i class="fa-regular fa-calendar-plus"></i><p>Important</p>
                 </a>
                 <a href="#" class="link completed-tab">
-                    <p>Completed</p>
+                    <i class="fa-regular fa-calendar-minus"></i><p>Completed</p>
                 </a>
             </div>
             <div class="projects-nav">
@@ -74,7 +74,7 @@
         <div class="project-inputs">
             <div class="project-input">
                 <label for="project-name">Project Name*</label>
-                <input type="text" name="name" id="project-name" required>
+                <input type="text" name="name" id="project-name" maxlength="30" required>
             </div>
             <div class="project-btns">
                 <button class="btn btn-cancel">Cancel</button>
@@ -91,7 +91,7 @@
         <div class="todo-inputs">
             <div class="todo-input">
                 <label for="todo-title">Title*</label>
-                <input type="text" name="name" id="todo-title" required>
+                <input type="text" name="name" id="todo-title" maxlength="50" required>
             </div>
             <div class="todo-input">
                 <label for="todo-description">Description</label>

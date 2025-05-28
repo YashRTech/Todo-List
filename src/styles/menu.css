@@ -42,6 +42,9 @@
     transform: translate(-50%, -50%) rotate(-45deg);
 }
 
+i{
+    color: #757575;
+}
 
 @media (width<=1000px) {
   .ham-menu{
