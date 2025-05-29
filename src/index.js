@@ -7,6 +7,7 @@ import * as DOM from "./modules/dom.js";
 // Input Modals
 const addNewProject = document.querySelector(".add-new-project");
 const addNewTodo = document.querySelector(".add-new-todo");
+const addNewTodo2 = document.querySelector(".add-new-todo-2");
 
 const closeBtn = document.querySelectorAll(".close-btn");
 const btnCancel = document.querySelectorAll(".btn-cancel");
@@ -49,6 +50,7 @@ btnCancel.forEach((btn) => {
 // Input Modals
 addNewProject.addEventListener("click", DOM.displayProjectModal);
 addNewTodo.addEventListener("click", DOM.displayTodoModal);
+addNewTodo2.addEventListener("click", DOM.displayTodoModal);
 
 
 // Add From inputs

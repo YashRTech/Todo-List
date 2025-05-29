@@ -1,5 +1,8 @@
 import * as Logic from "./logic.js";
-import { updateDataInLocalStorage } from "./localstorage.js";
+import {
+  updateDataInLocalStorage,
+  updateExtrasInLocalStorage,
+} from "./localstorage.js";
 import { format, isWithinInterval, parse, addDays, startOfDay } from "date-fns";
 import {
   disable,
@@ -18,7 +21,7 @@ import {
   isMobile,
   addActiveTabClass,
   removeActiveTabClass,
-  addOutline
+  addOutline,
 } from "./utility.js";
 
 let editMode = true;
@@ -28,6 +31,8 @@ let editTodoId = null;
 let currentTab = "All";
 let task = null;
 let currentModal = null;
+let isPreDefinedTabs = true;
+const _ = undefined;
 
 const overlay = document.querySelector(".overlay");
 
@@ -96,7 +101,7 @@ function getNext7DaysTodos(todos) {
 
 // Delete Modals
 function displayDeleteModal() {
-  currentModal="Delete Modal"
+  currentModal = "Delete Modal";
   removeHiddenClass(overlay);
   removeHiddenClass(deleteModal);
 }
@@ -125,7 +130,7 @@ export function handleConfirmDelete() {
 
 // Input Modals
 export function displayProjectModal() {
-  currentModal = "Project Modal"
+  currentModal = "Project Modal";
   addHiddenClass(todoInputContainer);
   removeHiddenClass(overlay);
   removeHiddenClass(projectInputContainer);
@@ -207,7 +212,9 @@ function displayTodos(todos) {
   todos.forEach((todo) => {
     let div = document.createElement("div");
     div.dataset.todoId = todo.todoId;
-    div.dataset.projectId = todo.projectId;
+    if (todo.projectId) {
+      div.dataset.projectId = todo.projectId;
+    }
     let check = "";
     if (todo.isCompleted) {
       check = "checked";
@@ -239,6 +246,53 @@ function displayTodos(todos) {
 export function addTodoToDom() {
   if (checkEmptyValue(todoTitle.value)) return;
   const todoPriority = getCurrentPriority();
+
+  if (isPreDefinedTabs) {
+    if (editMode && editTodoId) {
+      let currentTodo = Logic.getCurrentTodo(editTodoId);
+      Logic.editTodo(editTodoId, _, [
+        todoTitle.value,
+        todoDescription.value,
+        todoDate.value,
+        todoPriority.id,
+        currentTodo.isCompleted,
+      ]);
+    } else {
+      Logic.createAndUpdateTodoToExtras(
+        todoTitle.value,
+        todoDescription.value,
+        todoDate.value,
+        todoPriority.id
+      );
+    }
+
+    closeModals();
+    switch (currentTab) {
+      case "All":
+        displayAllTodos();
+        break;
+      case "Completed":
+        displayCompletedTab();
+        break;
+      case "Important":
+        displayImportantTab();
+        break;
+      case "Today":
+        displayTodayTab();
+        break;
+      case "Week":
+        displayWeekTab();
+        break;
+      default:
+        displayCurrentProjectTodos(currentProjectId);
+    }
+
+    // Reset
+    editMode = false;
+    editTodoId = null;
+
+    return;
+  }
 
   if (!todoPriority) {
     alert("You must have to choose any one of the priority");
@@ -357,6 +411,7 @@ export function handleProjectContainer(e) {
   } else {
     addActiveTabClass(e.target);
   }
+  isPreDefinedTabs = false;
   displayMainHeading(currentTab);
   displayTaskCount(currentProject.todos.length);
   removeHiddenClass(addNewTodo);
@@ -366,8 +421,10 @@ export function handleTodoContainer(e) {
   const todo = e.target.closest("div[data-todo-id]");
   if (!todo) return;
   const todoId = todo.dataset.todoId;
-  const projectId = todo.dataset.projectId;
-
+  let projectId = undefined;
+  if (todo.dataset.projectId) {
+     projectId = todo.dataset.projectId;
+  }
   if (
     e.target.classList.contains("todo-date") ||
     e.target.classList.contains("priority")
@@ -410,7 +467,7 @@ export function handleTodoContainer(e) {
     if (todoToView.dueDate) {
       todoDate.value = format(new Date(todoToView.dueDate), "yyyy-MM-dd");
     }
-    
+
     disable(todoTitle, todoDescription, todoDate, ...priorities);
     changeTodoAddBtnText("View");
     addHiddenClass(btnAddTodo);
@@ -425,6 +482,7 @@ export function handleTodoContainer(e) {
   if (e.target.classList.contains("checkbox")) {
     todoFromData.isCompleted = !todoFromData.isCompleted;
     updateDataInLocalStorage();
+    updateExtrasInLocalStorage();
     return;
   }
 
@@ -432,10 +490,12 @@ export function handleTodoContainer(e) {
   checkbox.checked = !checkbox.checked;
   todoFromData.isCompleted = !todoFromData.isCompleted;
   updateDataInLocalStorage();
+  updateExtrasInLocalStorage();
 }
 
 // for Tabs
 export function displayCompletedTab() {
+  isPreDefinedTabs = true;
   const allTodos = Logic.getAllTodos();
   addHiddenClass(addNewTodo);
   const completedTodos = allTodos.filter((todo) => todo.isCompleted);
@@ -451,6 +511,7 @@ export function displayCompletedTab() {
   displayTodos(completedTodos);
 }
 export function displayImportantTab() {
+  isPreDefinedTabs = true;
   const allTodos = Logic.getAllTodos();
   addHiddenClass(addNewTodo);
   const importantTodos = allTodos.filter((todo) => todo.priority === "high");
@@ -466,6 +527,7 @@ export function displayImportantTab() {
   displayTodos(importantTodos);
 }
 export function displayTodayTab() {
+  isPreDefinedTabs = true;
   const allTodos = Logic.getAllTodos();
   addHiddenClass(addNewTodo);
   const today = format(new Date(), "dd MMM yyyy");
@@ -483,6 +545,7 @@ export function displayTodayTab() {
   displayTodos(todayTodos);
 }
 export function displayWeekTab() {
+  isPreDefinedTabs = true;
   const allTodos = Logic.getAllTodos();
   addHiddenClass(addNewTodo);
   const weekTodos = getNext7DaysTodos(allTodos);
@@ -499,6 +562,7 @@ export function displayWeekTab() {
   displayTodos(weekTodos);
 }
 export function displayAllTodos() {
+  isPreDefinedTabs = true;
   currentTab = "All";
   addHiddenClass(addNewTodo);
   let allTodos = Logic.getAllTodos();
@@ -523,17 +587,16 @@ export function handleMenuToggle() {
   transform(sidebar, -300);
 }
 
-
 // For key accessibility
 export function handleEnterKey(e) {
   if (e.key === "Enter") {
     switch (currentModal) {
       case "Todo Modal":
         addTodoToDom();
-        break
+        break;
       case "Project Modal":
         addAndEditProjectToDom();
-        break
+        break;
       case "Delete Modal":
         handleConfirmDelete();
     }
@@ -542,13 +605,13 @@ export function handleEnterKey(e) {
     switch (currentModal) {
       case "Todo Modal":
         closeModals();
-        break
+        break;
       case "Project Modal":
         closeModals();
-        break
+        break;
       case "View Modal":
         closeModals();
-        break
+        break;
       case "Delete Modal":
         closeDeleteModal();
     }

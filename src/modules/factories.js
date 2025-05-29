@@ -6,8 +6,10 @@ export class Todo {
     this.isCompleted = isCompleted;
     this.dueDate = dueDate;
     this.todoId = crypto.randomUUID();
+    this.allId=crypto.randomUUID();
   }
 }
+
 
 export class Project {
   constructor(name) {
