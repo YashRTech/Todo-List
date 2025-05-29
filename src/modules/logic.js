@@ -8,16 +8,16 @@ const defaultProjects = {
   todos: [
     {
       title: "Complete Todo List App",
-      description: "hello my friend how are you doing",
+      description: "Hello my friend how are you doing",
       priority: "high",
-      isCompleted: false,
+      isCompleted: true,
       dueDate: "29 May 2025",
       todoId: "bc859c75-7d77-4c9d-9d76-97c7f8c37ba9",
       projectId: "627872b6-f2cf-4cd7-b9ff-1ac6c3fb019a",
     },
     {
       title: "Talk to your GF",
-      description: "",
+      description: "Does it need any description\nOne thing to clarify is GF = Gamer Friend",
       priority: "low",
       isCompleted: false,
       dueDate: "25 May 2025",
