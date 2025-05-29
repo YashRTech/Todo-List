@@ -340,7 +340,7 @@ input[type="checkbox"]:checked {
 input[type="text"],
 input[type="date"],
 textarea {
-  outline: 1px solid gray;
+  outline: 1px solid gray !important;
 }
 
 .add-new-project,
