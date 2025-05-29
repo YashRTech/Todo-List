@@ -20,7 +20,7 @@ A feature-rich, modular, and responsive Todo List web application built from scr
 
 ## 📸 Preview
 
-![Todo List Screenshot](./preview.png)
+![Todo List Screenshot](./public/preview.png)
 
 ## 🚀 Live Demo
 

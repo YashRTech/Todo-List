@@ -5,7 +5,15 @@ import "./modules/logic.js";
 import * as DOM from "./modules/dom.js";
 import previewImage from "./assets/preview.png";
 
-document.querySelector("meta[property='og:image']").setAttribute("content", previewImage);
+const ogMetaTag = document.createElement("meta");
+ogMetaTag.setAttribute("property", "og:image");
+ogMetaTag.setAttribute("content", previewImage);
+document.head.appendChild(ogMetaTag);
+
+const twitterMetaTag = document.createElement("meta");
+twitterMetaTag.setAttribute("property", "twitter:image");
+twitterMetaTag.setAttribute("content", previewImage);
+document.head.appendChild(twitterMetaTag);
 
 // Input Modals
 const addNewProject = document.querySelector(".add-new-project");
