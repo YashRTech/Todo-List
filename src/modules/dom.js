@@ -17,7 +17,7 @@ import {
   removeActiveClass,
   isMobile,
   addActiveTabClass,
-  removeActiveTabClass
+  removeActiveTabClass,
 } from "./utility.js";
 
 let editMode = true;
@@ -66,7 +66,6 @@ const completedTab = document.querySelector(".completed-tab");
 const importantTab = document.querySelector(".important-tab");
 const weekTab = document.querySelector(".week-tab");
 const todayTab = document.querySelector(".today-tab");
-
 
 // Our Functions
 function clearInputs() {
@@ -154,7 +153,7 @@ export function displayAllProjects() {
     newProject.setAttribute("id", project.id);
     let active = "";
     if (currentProjectId === project.id) {
-      active='active-tab'
+      active = "active-tab";
     }
     newProject.innerHTML = `<a href="#" class="project-link ${active}" data-tab>
     <p class="project-text"><i class="fa-solid fa-screwdriver-wrench"></i> ${project.name}</p>
@@ -380,13 +379,14 @@ export function handleTodoContainer(e) {
     if (todoToEdit.dueDate) {
       todoDate.value = format(new Date(todoToEdit.dueDate), "yyyy-MM-dd");
     }
-    selectPriority(todoToEdit.priority);
-
     editMode = true;
     editTodoId = todoId;
     editProjectId = projectId;
     changeTodoAddBtnText("Edit");
     displayTodoModal();
+
+    // We are selecting select priority here because we have add checked true for high automatically so we call it first then it will override on current todo priority
+    selectPriority(todoToEdit.priority);
     return;
   }
 
@@ -397,12 +397,12 @@ export function handleTodoContainer(e) {
     if (todoToView.dueDate) {
       todoDate.value = format(new Date(todoToView.dueDate), "yyyy-MM-dd");
     }
-    selectPriority(todoToView.priority);
-
+    
     disable(todoTitle, todoDescription, todoDate, ...priorities);
     changeTodoAddBtnText("View");
     addHiddenClass(btnAddTodo);
     displayTodoModal();
+    selectPriority(todoToView.priority);
     return;
   }
 
