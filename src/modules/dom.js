@@ -141,6 +141,8 @@ export function displayTodoModal() {
   removeHiddenClass(overlay);
   removeHiddenClass(todoInputContainer);
   todoTitle.focus();
+
+  // we are adding this explicity also because its not visible when we call focus function
   addOutline(todoTitle);
 }
 export function closeModals() {
