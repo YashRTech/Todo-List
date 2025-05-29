@@ -13,6 +13,8 @@ body {
 a {
   text-decoration: none;
   color: inherit;
+  outline: none;
+  border: none;
 }
 li {
   list-style: none;
@@ -34,10 +36,10 @@ hr {
   --red: #ff4545;
   --light-red: #d00000;
   --dark-red: #c46161;
-  --creamy:rgb(228, 228, 228);
-  --dark-slate:rgb(38, 51, 52);
-  --light-slate:rgb(52, 94, 97);
-  --sidebar-bg:rgb(1, 65, 66);
+  --creamy: rgb(228, 228, 228);
+  --dark-slate: rgb(38, 51, 52);
+  --light-slate: rgb(52, 94, 97);
+  --sidebar-bg: rgb(1, 65, 66);
 }
 body {
   position: fixed;
@@ -70,21 +72,21 @@ body {
   width: 300px;
   padding: 40px 20px;
   background-color: var(--sidebar-bg);
-  color: rgb(210, 209, 209);
+  color: var(--creamy);
   transition: transform 0.3s;
 }
-#sidebar-menu::-webkit-scrollbar{
+#sidebar-menu::-webkit-scrollbar {
   width: 7px;
 }
-#sidebar-menu::-webkit-scrollbar-track{
+#sidebar-menu::-webkit-scrollbar-track {
   background-color: var(--sidebar-bg);
 }
-#sidebar-menu::-webkit-scrollbar-thumb{
+#sidebar-menu::-webkit-scrollbar-thumb {
   background-color: #00b3bb;
   border-radius: 20px;
 }
 
-.transform-sidebar{
+.transform-sidebar {
   transform: translateX(-300px);
 }
 .link,
@@ -97,7 +99,11 @@ body {
   transition: 0.3s;
   justify-content: space-between;
 }
-.link{
+.link:hover,
+.project-link:hover {
+  outline: 2px solid green;
+}
+.link {
   justify-content: flex-start;
   gap: 10px;
   align-items: center;
@@ -123,20 +129,35 @@ body {
   text-overflow: ellipsis;
 }
 
+.githubProfile,
+.sourceCode {
+  font-weight: 900;
+  color: var(--aqua);
+}
+
+.active-tab{
+  background-color: #f48c06;
+  color: black;
+}
+.active-tab i{
+  color: black;
+}
+
 /*! main */
 
 main {
   margin-left: 300px;
   overflow: auto;
   height: calc(100vh - 60px);
+  background-color: var(--creamy);
 }
-main::-webkit-scrollbar{
+main::-webkit-scrollbar {
   width: 5px;
 }
-main::-webkit-scrollbar-track{
-  background-color:var(--creamy);
+main::-webkit-scrollbar-track {
+  background-color: var(--creamy);
 }
-main::-webkit-scrollbar-thumb{
+main::-webkit-scrollbar-thumb {
   background-color: gray;
   border-radius: 20px;
 }
@@ -167,7 +188,7 @@ main::-webkit-scrollbar-thumb{
   justify-content: space-between;
   align-items: center;
   padding: 20px;
-  border-bottom: 1px solid var(--grey);
+  border-bottom: 1px solid var(--white);
   transition: 0.3s;
 }
 .todo-right {
@@ -213,7 +234,8 @@ main::-webkit-scrollbar-thumb{
   background-image: linear-gradient(
     90deg,
     var(--dark-slate) 0%,
-  var(--aqua) 100%);
+    var(--aqua) 100%
+  );
   padding: 15px;
   font-size: 25px;
   display: flex;
@@ -268,7 +290,7 @@ main::-webkit-scrollbar-thumb{
   border-radius: 5px;
   font-size: 17px;
 }
-.btn:hover{
+.btn:hover {
   filter: brightness(0.75);
 }
 .btn-add {
@@ -310,7 +332,9 @@ input[type="radio"]:checked {
 input[type="checkbox"]:checked {
   accent-color: rgb(0, 217, 255);
 }
-input[type="text"],input[type="date"],textarea{
+input[type="text"],
+input[type="date"],
+textarea {
   outline: 1px solid gray;
 }
 
@@ -372,8 +396,6 @@ textarea {
   opacity: 0.4;
 }
 
-
-
 /* Media Queries */
 
 @media (width<=1200px) {
@@ -389,7 +411,7 @@ textarea {
   main {
     margin-left: 0;
   }
-  .ham-menu{
+  .ham-menu {
     display: block;
   }
 }

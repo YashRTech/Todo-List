@@ -1,6 +1,5 @@
 import "./styles/style.css";
-import "./styles/menu.css";
-import "./styles/polish.css";
+import "./styles/toggleMenu.css";
 import "./modules/factories.js";
 import "./modules/logic.js";
 import * as DOM from "./modules/dom.js";

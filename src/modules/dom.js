@@ -16,6 +16,8 @@ import {
   transform,
   removeActiveClass,
   isMobile,
+  addActiveTabClass,
+  removeActiveTabClass
 } from "./utility.js";
 
 let editMode = true;
@@ -57,6 +59,14 @@ const deleteModal = document.querySelector(".delete-modal");
 // Sidebar
 const sidebar = document.querySelector("#sidebar-menu");
 const hamMenu = document.querySelector("#menuToggle");
+
+// Tabs
+const allTab = document.querySelector(".all-tab");
+const completedTab = document.querySelector(".completed-tab");
+const importantTab = document.querySelector(".important-tab");
+const weekTab = document.querySelector(".week-tab");
+const todayTab = document.querySelector(".today-tab");
+
 
 // Our Functions
 function clearInputs() {
@@ -142,7 +152,11 @@ export function displayAllProjects() {
   allProjects.forEach((project) => {
     let newProject = document.createElement("div");
     newProject.setAttribute("id", project.id);
-    newProject.innerHTML = `<a href="#" class="project-link">
+    let active = "";
+    if (currentProjectId === project.id) {
+      active='active-tab'
+    }
+    newProject.innerHTML = `<a href="#" class="project-link ${active}" data-tab>
     <p class="project-text"><i class="fa-solid fa-screwdriver-wrench"></i> ${project.name}</p>
     <div class="project-right">
         <i class="fa-solid fa-pen-to-square edit-project"></i>
@@ -324,6 +338,13 @@ export function handleProjectContainer(e) {
     removeActiveClass(hamMenu);
     transform(sidebar, -300);
   }
+  removeActiveTabClass();
+
+  if (e.target.classList.contains("project-text")) {
+    addActiveTabClass(e.target.parentElement);
+  } else {
+    addActiveTabClass(e.target);
+  }
   displayMainHeading(currentTab);
   displayTaskCount(currentProject.todos.length);
   removeHiddenClass(addNewTodo);
@@ -409,6 +430,8 @@ export function displayCompletedTab() {
     removeActiveClass(hamMenu);
     transform(sidebar, -300);
   }
+  removeActiveTabClass();
+  addActiveTabClass(completedTab);
   displayMainHeading(currentTab);
   displayTaskCount(completedTodos.length);
   displayTodos(completedTodos);
@@ -422,6 +445,8 @@ export function displayImportantTab() {
     removeActiveClass(hamMenu);
     transform(sidebar, -300);
   }
+  removeActiveTabClass();
+  addActiveTabClass(importantTab);
   displayMainHeading(currentTab);
   displayTaskCount(importantTodos.length);
   displayTodos(importantTodos);
@@ -437,6 +462,8 @@ export function displayTodayTab() {
     removeActiveClass(hamMenu);
     transform(sidebar, -300);
   }
+  removeActiveTabClass();
+  addActiveTabClass(todayTab);
   displayMainHeading(currentTab);
   displayTaskCount(todayTodos.length);
   displayTodos(todayTodos);
@@ -444,8 +471,6 @@ export function displayTodayTab() {
 export function displayWeekTab() {
   const allTodos = Logic.getAllTodos();
   addHiddenClass(addNewTodo);
-  const today = format(new Date(), "dd MMM yyyy");
-
   const weekTodos = getNext7DaysTodos(allTodos);
 
   currentTab = "Week";
@@ -453,6 +478,8 @@ export function displayWeekTab() {
     removeActiveClass(hamMenu);
     transform(sidebar, -300);
   }
+  removeActiveTabClass();
+  addActiveTabClass(weekTab);
   displayMainHeading(currentTab);
   displayTaskCount(weekTodos.length);
   displayTodos(weekTodos);
@@ -465,6 +492,8 @@ export function displayAllTodos() {
     removeActiveClass(hamMenu);
     transform(sidebar, -300);
   }
+  removeActiveTabClass();
+  addActiveTabClass(allTab);
   displayMainHeading(currentTab);
   displayTaskCount(allTodos.length);
   displayTodos(allTodos);

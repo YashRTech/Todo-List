@@ -22,19 +22,19 @@
     <div class="main">
         <nav id="sidebar-menu">
             <div class="default-nav">
-                <a href="#" class="link all-tab">
+                <a href="#" class="link all-tab" data-tab>
                     <i class="fa-regular fa-calendar-days"></i><p>All</p>
                 </a>
-                <a href="#" class="link today-tab">
+                <a href="#" class="link today-tab" data-tab>
                     <i class="fa-regular fa-calendar-xmark"></i><p>Today</p>
                 </a>
-                <a href="#" class="link week-tab">
+                <a href="#" class="link week-tab" data-tab>
                    <i class="fa-solid fa-calendar-week"></i><p>Week</p>
                 </a>
-                <a href="#" class="link important-tab">
+                <a href="#" class="link important-tab" data-tab>
                     <i class="fa-regular fa-calendar-plus"></i><p>Important</p>
                 </a>
-                <a href="#" class="link completed-tab">
+                <a href="#" class="link completed-tab" data-tab>
                     <i class="fa-regular fa-calendar-minus"></i><p>Completed</p>
                 </a>
             </div>
@@ -46,8 +46,8 @@
                 <div class="projects-container">
                 </div>
 
-                <a href="#" class="">☽ Crafted by <a href="https://github.com/YashRTech">YashRTech</a> | <a
-                        href="https://github.com/YashRTech/Todo-List">Source</a> ☾</a>
+                <a href="#" class="">☽ Crafted by <a href="https://github.com/YashRTech" class="githubProfile" target="_blank">YashRTech</a> | <a
+                        href="https://github.com/YashRTech/Todo-List" class="sourceCode" target="_blank">Source</a> ☾</a>
             </div>
         </nav>
 
@@ -74,7 +74,7 @@
         <div class="project-inputs">
             <div class="project-input">
                 <label for="project-name">Project Name*</label>
-                <input type="text" name="name" id="project-name" maxlength="30" required>
+                <input type="text" name="name" id="project-name" maxlength="30" required autocomplete="off">
             </div>
             <div class="project-btns">
                 <button class="btn btn-cancel">Cancel</button>
@@ -91,7 +91,7 @@
         <div class="todo-inputs">
             <div class="todo-input">
                 <label for="todo-title">Title*</label>
-                <input type="text" name="name" id="todo-title" maxlength="50" required>
+                <input type="text" name="name" id="todo-title" autocomplete="off" maxlength="50" required>
             </div>
             <div class="todo-input">
                 <label for="todo-description">Description</label>

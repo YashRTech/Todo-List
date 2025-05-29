@@ -59,7 +59,16 @@ function removeActiveClass(elem) {
 function isMobile() {
   return window.innerWidth <= 1000;
 }
+function addActiveTabClass(elem) {
+  elem.classList.add('active-tab')
+}
+function removeActiveTabClass() {
+  const tabs=document.querySelectorAll("[data-tab]")
+  tabs.forEach(tab => {
+    tab.classList.remove("active-tab")
+  })
+}
 
 export {
-  disable, enable, changeTodoAddBtnText, changeProjectAddBtnText, unCheckAllPriortiy, getCurrentPriority, selectPriority, displayTaskCount, checkEmptyValue, addHiddenClass, removeHiddenClass, transform, removeActiveClass, isMobile
+  disable, enable, changeTodoAddBtnText, changeProjectAddBtnText, unCheckAllPriortiy, getCurrentPriority, selectPriority, displayTaskCount, checkEmptyValue, addHiddenClass, removeHiddenClass, transform, removeActiveClass, isMobile,addActiveTabClass,removeActiveTabClass
 };
