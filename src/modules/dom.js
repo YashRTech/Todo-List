@@ -73,6 +73,7 @@ const completedTab = document.querySelector(".completed-tab");
 const importantTab = document.querySelector(".important-tab");
 const weekTab = document.querySelector(".week-tab");
 const todayTab = document.querySelector(".today-tab");
+const othersTab = document.querySelector(".others-tab");
 
 // Our Functions
 function clearInputs() {
@@ -283,6 +284,9 @@ export function addTodoToDom() {
       case "Week":
         displayWeekTab();
         break;
+      case "Others":
+        displayOthersTab();
+        break;
       default:
         displayCurrentProjectTodos(currentProjectId);
     }
@@ -334,6 +338,9 @@ export function addTodoToDom() {
     case "Week":
       displayWeekTab();
       break;
+    case "Others":
+      displayOthersTab();
+      break;
     default:
       displayCurrentProjectTodos(currentProjectId);
   }
@@ -367,6 +374,8 @@ export function deleteTodo(todoId, projectId) {
     case "Week":
       displayWeekTab();
       return;
+    case "Others":
+      displayOthersTab();
   }
   const currentProjectTodos = Logic.getCurrentProject(projectId).todos;
   displayTodos(currentProjectTodos);
@@ -423,7 +432,7 @@ export function handleTodoContainer(e) {
   const todoId = todo.dataset.todoId;
   let projectId = undefined;
   if (todo.dataset.projectId) {
-     projectId = todo.dataset.projectId;
+    projectId = todo.dataset.projectId;
   }
   if (
     e.target.classList.contains("todo-date") ||
@@ -497,7 +506,6 @@ export function handleTodoContainer(e) {
 export function displayCompletedTab() {
   isPreDefinedTabs = true;
   const allTodos = Logic.getAllTodos();
-  addHiddenClass(addNewTodo);
   const completedTodos = allTodos.filter((todo) => todo.isCompleted);
   currentTab = "Completed";
   if (isMobile()) {
@@ -513,7 +521,6 @@ export function displayCompletedTab() {
 export function displayImportantTab() {
   isPreDefinedTabs = true;
   const allTodos = Logic.getAllTodos();
-  addHiddenClass(addNewTodo);
   const importantTodos = allTodos.filter((todo) => todo.priority === "high");
   currentTab = "Important";
   if (isMobile()) {
@@ -529,7 +536,6 @@ export function displayImportantTab() {
 export function displayTodayTab() {
   isPreDefinedTabs = true;
   const allTodos = Logic.getAllTodos();
-  addHiddenClass(addNewTodo);
   const today = format(new Date(), "dd MMM yyyy");
 
   const todayTodos = allTodos.filter((todo) => todo.dueDate === today);
@@ -547,7 +553,6 @@ export function displayTodayTab() {
 export function displayWeekTab() {
   isPreDefinedTabs = true;
   const allTodos = Logic.getAllTodos();
-  addHiddenClass(addNewTodo);
   const weekTodos = getNext7DaysTodos(allTodos);
 
   currentTab = "Week";
@@ -564,7 +569,6 @@ export function displayWeekTab() {
 export function displayAllTodos() {
   isPreDefinedTabs = true;
   currentTab = "All";
-  addHiddenClass(addNewTodo);
   let allTodos = Logic.getAllTodos();
   if (isMobile()) {
     removeActiveClass(hamMenu);
@@ -575,6 +579,20 @@ export function displayAllTodos() {
   displayMainHeading(currentTab);
   displayTaskCount(allTodos.length);
   displayTodos(allTodos);
+}
+export function displayOthersTab() {
+  isPreDefinedTabs = true;
+  currentTab = "Others";
+  let extraTodos = Logic.getExtraTodos();
+  if (isMobile()) {
+    removeActiveClass(hamMenu);
+    transform(sidebar, -300);
+  }
+  removeActiveTabClass();
+  addActiveTabClass(othersTab);
+  displayMainHeading(currentTab);
+  displayTaskCount(extraTodos.length);
+  displayTodos(extraTodos);
 }
 
 // Menu Toggle

@@ -22,6 +22,7 @@ const completedTab = document.querySelector(".completed-tab");
 const importantTab = document.querySelector(".important-tab");
 const weekTab = document.querySelector(".week-tab");
 const todayTab = document.querySelector(".today-tab");
+const othersTab = document.querySelector(".others-tab");
 
 // Main Containers
 const projectsContainer = document.querySelector(".projects-container");
@@ -77,6 +78,7 @@ importantTab.addEventListener("click", DOM.displayImportantTab);
 todayTab.addEventListener("click", DOM.displayTodayTab);
 weekTab.addEventListener("click", DOM.displayWeekTab);
 allTab.addEventListener("click", DOM.displayAllTodos);
+othersTab.addEventListener('click',DOM.displayOthersTab)
 
 
 // For key accessibilities
