@@ -310,6 +310,7 @@ main::-webkit-scrollbar-thumb {
   display: flex;
   justify-content: space-between;
   border: none;
+  gap: 5px;
 }
 .low {
   background-color: var(--green);
@@ -357,6 +358,7 @@ textarea {
 textarea {
   resize: none;
 }
+
 
 .priority {
   padding: 5px 20px;
@@ -450,6 +452,9 @@ textarea {
 @media (width<=500px) {
   .todo-title {
     max-width: 100px;
+  }
+  .priorities{
+    font-size: 16px;
   }
 }
 @media (width<=400px) {
