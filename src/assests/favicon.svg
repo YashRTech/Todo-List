@@ -1,0 +1,24 @@
+<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle -->
+  <circle cx="16" cy="16" r="14" fill="#4F46E5" stroke="#3730A3" stroke-width="2"/>
+  
+  <!-- Checklist icon -->
+  <!-- First checkbox - checked -->
+  <rect x="7" y="9" width="4" height="4" fill="#FFFFFF" rx="1"/>
+  <polyline points="8.5,11 9.5,12 11.5,10" stroke="#4F46E5" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- First line -->
+  <line x1="13" y1="11" x2="24" y2="11" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round"/>
+  
+  <!-- Second checkbox - unchecked -->
+  <rect x="7" y="16" width="4" height="4" fill="#FFFFFF" rx="1"/>
+  
+  <!-- Second line -->
+  <line x1="13" y1="18" x2="22" y2="18" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round"/>
+  
+  <!-- Third checkbox - unchecked -->
+  <rect x="7" y="23" width="4" height="4" fill="#FFFFFF" rx="1"/>
+  
+  <!-- Third line -->
+  <line x1="13" y1="25" x2="20" y2="25" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round"/>
+</svg>
