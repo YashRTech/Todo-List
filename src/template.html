@@ -4,7 +4,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Todo App</title>
+    <title>Todo List App — Organize Your Day</title>
+    <meta name="title" content="Todo List App — Organize Your Day">
+    <meta name="description"
+        content="A clean and responsive Todo List App to manage tasks and projects, built with JavaScript and Webpack.">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://your-netlify-site.netlify.app/">
+    <meta property="og:title" content="Todo List App — Organize Your Day">
+    <meta property="og:description"
+        content="A clean and responsive Todo List App to manage tasks and projects, built with JavaScript and Webpack.">
+    <meta property="og:image" content="https://your-netlify-site.netlify.app/og-image.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://your-netlify-site.netlify.app/">
+    <meta property="twitter:title" content="Todo List App — Organize Your Day">
+    <meta property="twitter:description"
+        content="A clean and responsive Todo List App to manage tasks and projects, built with JavaScript and Webpack.">
+    <meta property="twitter:image" content="https://your-netlify-site.netlify.app/og-image.png">
+
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -23,19 +44,24 @@
         <nav id="sidebar-menu">
             <div class="default-nav">
                 <a href="#" class="link all-tab" data-tab>
-                    <i class="fa-regular fa-calendar-days"></i><p>All</p>
+                    <i class="fa-regular fa-calendar-days"></i>
+                    <p>All</p>
                 </a>
                 <a href="#" class="link today-tab" data-tab>
-                    <i class="fa-regular fa-calendar-xmark"></i><p>Today</p>
+                    <i class="fa-regular fa-calendar-xmark"></i>
+                    <p>Today</p>
                 </a>
                 <a href="#" class="link week-tab" data-tab>
-                   <i class="fa-solid fa-calendar-week"></i><p>Week</p>
+                    <i class="fa-solid fa-calendar-week"></i>
+                    <p>Week</p>
                 </a>
                 <a href="#" class="link important-tab" data-tab>
-                    <i class="fa-regular fa-calendar-plus"></i><p>Important</p>
+                    <i class="fa-regular fa-calendar-plus"></i>
+                    <p>Important</p>
                 </a>
                 <a href="#" class="link completed-tab" data-tab>
-                    <i class="fa-regular fa-calendar-minus"></i><p>Completed</p>
+                    <i class="fa-regular fa-calendar-minus"></i>
+                    <p>Completed</p>
                 </a>
             </div>
             <div class="projects-nav">
@@ -46,8 +72,9 @@
                 <div class="projects-container">
                 </div>
 
-                <a href="#" class="">☽ Crafted by <a href="https://github.com/YashRTech" class="githubProfile" target="_blank">YashRTech</a> | <a
-                        href="https://github.com/YashRTech/Todo-List" class="sourceCode" target="_blank">Source</a> ☾</a>
+                <a href="#" class="">☽ Crafted by <a href="https://github.com/YashRTech" class="githubProfile"
+                        target="_blank">YashRTech</a> | <a href="https://github.com/YashRTech/Todo-List"
+                        class="sourceCode" target="_blank">Source</a> ☾</a>
             </div>
         </nav>
 
@@ -95,7 +122,7 @@
             </div>
             <div class="todo-input">
                 <label for="todo-description">Description</label>
-                <textarea name="Description" id="todo-description" rows="5"></textarea>
+                <textarea name="Description" id="todo-description" rows="5" autocomplete="off"></textarea>
             </div>
             <div class="todo-input">
                 <label for="todo-date">Due Date</label>

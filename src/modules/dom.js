@@ -128,6 +128,7 @@ export function displayProjectModal() {
 export function displayTodoModal() {
   const priority = document.querySelector("input[id='high']");
   priority.checked = true;
+  // todoTitle.autoFoc
   addHiddenClass(projectInputContainer);
   removeHiddenClass(overlay);
   removeHiddenClass(todoInputContainer);
@@ -170,7 +171,6 @@ export function addAndEditProjectToDom() {
 
   if (editMode && editProjectId) {
     Logic.editProjectName(editProjectId, projectName.value);
-    displayMainHeading(projectName.value);
   } else {
     Logic.createAndUpdateProjects(projectName.value);
   }
