@@ -2,9 +2,32 @@ import { Todo, Project } from "./factories.js";
 import { updateDataInLocalStorage } from "./localstorage.js";
 import { format } from "date-fns";
 
-//! Taking data from localStorage and this is our main head and it handles our everything 
-let projects = JSON.parse(localStorage.getItem("todoList")) || [];
-
+const defaultProjects = {
+  name: "Todo App",
+  id: "627872b6-f2cf-4cd7-b9ff-1ac6c3fb019a",
+  todos: [
+    {
+      title: "Complete Todo List App",
+      description: "hello my friend how are you doing",
+      priority: "high",
+      isCompleted: false,
+      dueDate: "29 May 2025",
+      todoId: "bc859c75-7d77-4c9d-9d76-97c7f8c37ba9",
+      projectId: "627872b6-f2cf-4cd7-b9ff-1ac6c3fb019a",
+    },
+    {
+      title: "Talk to your GF",
+      description: "",
+      priority: "low",
+      isCompleted: false,
+      dueDate: "25 May 2025",
+      todoId: "568d9bac-43d4-4942-ad0e-c3a54a42228d",
+      projectId: "627872b6-f2cf-4cd7-b9ff-1ac6c3fb019a",
+    },
+  ],
+};
+//! Taking data from localStorage and this is our main head and it handles our everything
+let projects = JSON.parse(localStorage.getItem("todoList")) || [defaultProjects];
 
 //! For Projects
 
@@ -32,8 +55,6 @@ export function editProjectName(projectId, projectName) {
   }
 }
 
-
-
 //! For Todos
 
 export function getAllTodos() {
@@ -54,7 +75,7 @@ export function createAndUpdateTodoToProject(
   [title, description, dueDate, priority, isCompleted]
 ) {
   if (dueDate) {
-    dueDate = format(new Date(dueDate), 'dd MMM yyyy');
+    dueDate = format(new Date(dueDate), "dd MMM yyyy");
   }
   let todo = new Todo(title, description, dueDate, priority, isCompleted);
   todo.projectId = projectId;
@@ -78,7 +99,7 @@ export function editTodo(
   if (!todo) return;
 
   if (dueDate) {
-    dueDate = format(new Date(dueDate), 'dd MMM yyyy');
+    dueDate = format(new Date(dueDate), "dd MMM yyyy");
   }
   todo.title = title;
   todo.description = description;
@@ -88,4 +109,3 @@ export function editTodo(
 
   updateDataInLocalStorage();
 }
-
