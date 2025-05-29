@@ -32,7 +32,7 @@ let currentTab = "All";
 let task = null;
 let currentModal = null;
 let isPreDefinedTabs = true;
-const _ = undefined;
+
 
 const overlay = document.querySelector(".overlay");
 
@@ -250,8 +250,8 @@ export function addTodoToDom() {
 
   if (isPreDefinedTabs) {
     if (editMode && editTodoId) {
-      let currentTodo = Logic.getCurrentTodo(editTodoId);
-      Logic.editTodo(editTodoId, _, [
+      let currentTodo = Logic.getCurrentTodo(editTodoId, editProjectId);
+      Logic.editTodo(editTodoId, editProjectId , [
         todoTitle.value,
         todoDescription.value,
         todoDate.value,
