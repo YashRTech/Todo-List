@@ -68,7 +68,10 @@ function removeActiveTabClass() {
     tab.classList.remove("active-tab")
   })
 }
+function addOutline(elem) {
+  elem.classList.add("outline")
+}
 
 export {
-  disable, enable, changeTodoAddBtnText, changeProjectAddBtnText, unCheckAllPriortiy, getCurrentPriority, selectPriority, displayTaskCount, checkEmptyValue, addHiddenClass, removeHiddenClass, transform, removeActiveClass, isMobile,addActiveTabClass,removeActiveTabClass
+  disable, enable, changeTodoAddBtnText, changeProjectAddBtnText, unCheckAllPriortiy, getCurrentPriority, selectPriority, displayTaskCount, checkEmptyValue, addHiddenClass, removeHiddenClass, transform, removeActiveClass, isMobile,addActiveTabClass,removeActiveTabClass,addOutline
 };

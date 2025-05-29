@@ -18,6 +18,7 @@ import {
   isMobile,
   addActiveTabClass,
   removeActiveTabClass,
+  addOutline
 } from "./utility.js";
 
 let editMode = true;
@@ -129,6 +130,7 @@ export function displayProjectModal() {
   removeHiddenClass(overlay);
   removeHiddenClass(projectInputContainer);
   projectName.focus();
+  addOutline(projectName);
 }
 export function displayTodoModal() {
   currentModal = "Todo Modal";
@@ -139,6 +141,7 @@ export function displayTodoModal() {
   removeHiddenClass(overlay);
   removeHiddenClass(todoInputContainer);
   todoTitle.focus();
+  addOutline(todoTitle);
 }
 export function closeModals() {
   clearInputs();
