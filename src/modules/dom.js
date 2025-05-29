@@ -26,6 +26,7 @@ let currentProjectId = null;
 let editTodoId = null;
 let currentTab = "All";
 let task = null;
+let currentModal = null;
 
 const overlay = document.querySelector(".overlay");
 
@@ -94,10 +95,12 @@ function getNext7DaysTodos(todos) {
 
 // Delete Modals
 function displayDeleteModal() {
+  currentModal="Delete Modal"
   removeHiddenClass(overlay);
   removeHiddenClass(deleteModal);
 }
 export function closeDeleteModal() {
+  currentModal = null;
   addHiddenClass(overlay);
   addHiddenClass(deleteModal);
 }
@@ -121,20 +124,25 @@ export function handleConfirmDelete() {
 
 // Input Modals
 export function displayProjectModal() {
+  currentModal = "Project Modal"
   addHiddenClass(todoInputContainer);
   removeHiddenClass(overlay);
   removeHiddenClass(projectInputContainer);
+  projectName.focus();
 }
 export function displayTodoModal() {
+  currentModal = "Todo Modal";
   const priority = document.querySelector("input[id='high']");
   priority.checked = true;
   // todoTitle.autoFoc
   addHiddenClass(projectInputContainer);
   removeHiddenClass(overlay);
   removeHiddenClass(todoInputContainer);
+  todoTitle.focus();
 }
 export function closeModals() {
   clearInputs();
+  currentModal = null;
   addHiddenClass(todoInputContainer);
   addHiddenClass(projectInputContainer);
   addHiddenClass(overlay);
@@ -403,6 +411,7 @@ export function handleTodoContainer(e) {
     addHiddenClass(btnAddTodo);
     displayTodoModal();
     selectPriority(todoToView.priority);
+    currentModal = "View Modal";
     return;
   }
 
@@ -507,4 +516,36 @@ export function handleMenuToggle() {
     return;
   }
   transform(sidebar, -300);
+}
+
+
+// For key accessibility
+export function handleEnterKey(e) {
+  if (e.key === "Enter") {
+    switch (currentModal) {
+      case "Todo Modal":
+        addTodoToDom();
+        break
+      case "Project Modal":
+        addAndEditProjectToDom();
+        break
+      case "Delete Modal":
+        handleConfirmDelete();
+    }
+  }
+  if (e.key === "Escape") {
+    switch (currentModal) {
+      case "Todo Modal":
+        closeModals();
+        break
+      case "Project Modal":
+        closeModals();
+        break
+      case "View Modal":
+        closeModals();
+        break
+      case "Delete Modal":
+        closeDeleteModal();
+    }
+  }
 }

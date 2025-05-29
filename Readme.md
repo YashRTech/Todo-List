@@ -14,6 +14,7 @@ A feature-rich, modular, and responsive Todo List web application built from scr
 ⌨️ Fully keyboard accessible
     - autofocus on input
     - Press Enter to add
+    - Press Escape to cancel
 ⚡ Optimized with Webpack for faster performance
 📆 Local date formatting using date-fns library
 

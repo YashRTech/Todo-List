@@ -75,3 +75,9 @@ importantTab.addEventListener("click", DOM.displayImportantTab);
 todayTab.addEventListener("click", DOM.displayTodayTab);
 weekTab.addEventListener("click", DOM.displayWeekTab);
 allTab.addEventListener("click", DOM.displayAllTodos);
+
+
+// For key accessibilities
+window.addEventListener("keydown", (e) => {
+  DOM.handleEnterKey(e);
+})
