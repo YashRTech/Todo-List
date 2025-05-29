@@ -24,7 +24,7 @@ A feature-rich, modular, and responsive Todo List web application built from scr
 
 ## 🚀 Live Demo
 
-👉 [Click to Visit (Netlify)](https://your-netlify-link.netlify.app)
+👉 [Try it now](https://organized-life-todo.netlify.app/)
 
 ## 🛠️ Tech Stack
 
