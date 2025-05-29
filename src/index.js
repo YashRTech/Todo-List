@@ -3,6 +3,9 @@ import "./styles/toggleMenu.css";
 import "./modules/factories.js";
 import "./modules/logic.js";
 import * as DOM from "./modules/dom.js";
+import previewImage from "./assets/preview.png";
+
+document.querySelector("meta[property='og:image']").setAttribute("content", previewImage);
 
 // Input Modals
 const addNewProject = document.querySelector(".add-new-project");
